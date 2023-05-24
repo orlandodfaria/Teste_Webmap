@@ -1,0 +1,1534 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <link rel="stylesheet" href="css/leaflet.css"><link rel="stylesheet" href="css/L.Control.Locate.min.css">
+        <link rel="stylesheet" href="css/qgis2web.css"><link rel="stylesheet" href="css/fontawesome-all.min.css">
+        <link rel="stylesheet" href="css/filter.css">
+<link rel="stylesheet" href="css/nouislider.min.css">
+        <link rel="stylesheet" href="css/leaflet-control-geocoder.Geocoder.css">
+        <link rel="stylesheet" href="css/leaflet-measure.css">
+        <style>
+        #map {
+            width: 1324px;
+            height: 882px;
+        }
+        </style>
+        <title></title>
+    </head>
+    <body>
+        <div id="map">
+        </div>
+        <script src="js/qgis2web_expressions.js"></script>
+        <script src="js/leaflet.js"></script><script src="js/L.Control.Locate.min.js"></script>
+        <script src="js/leaflet.rotatedMarker.js"></script>
+        <script src="js/leaflet.pattern.js"></script>
+        <script src="js/leaflet-hash.js"></script>
+        <script src="js/Autolinker.min.js"></script>
+        <script src="js/rbush.min.js"></script>
+        <script src="js/labelgun.min.js"></script>
+        <script src="js/labels.js"></script>
+        <script src="js/leaflet-control-geocoder.Geocoder.js"></script>
+        <script src="js/leaflet-measure.js"></script>
+        <script src="js/tailDT.js"></script>
+<script src="js/nouislider.min.js"></script>
+<script src="js/wNumb.js"></script>
+        <script src="data/18_PROVNCIAS_0.js"></script>
+        <script src="data/Clientes_Sonangalp_2023_02_20_1.js"></script>
+        <script>
+        var highlightLayer;
+        function highlightFeature(e) {
+            highlightLayer = e.target;
+
+            if (e.target.feature.geometry.type === 'LineString') {
+              highlightLayer.setStyle({
+                color: '#ffff00',
+              });
+            } else {
+              highlightLayer.setStyle({
+                fillColor: '#ffff00',
+                fillOpacity: 1
+              });
+            }
+            highlightLayer.openPopup();
+        }
+        var map = L.map('map', {
+            zoomControl:true, maxZoom:28, minZoom:1
+        }).fitBounds([[-19.002883007057907,6.381139762975415],[-3.826956138042181,29.917313949380556]]);
+        var hash = new L.Hash(map);
+        map.attributionControl.setPrefix('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a> &middot; <a href="https://leafletjs.com" title="A JS library for interactive maps">Leaflet</a> &middot; <a href="https://qgis.org">QGIS</a>');
+        var autolinker = new Autolinker({truncate: {length: 30, location: 'smart'}});
+        L.control.locate({locateOptions: {maxZoom: 19}}).addTo(map);
+        var measureControl = new L.Control.Measure({
+            position: 'topleft',
+            primaryLengthUnit: 'meters',
+            secondaryLengthUnit: 'kilometers',
+            primaryAreaUnit: 'sqmeters',
+            secondaryAreaUnit: 'hectares'
+        });
+        measureControl.addTo(map);
+        document.getElementsByClassName('leaflet-control-measure-toggle')[0]
+        .innerHTML = '';
+        document.getElementsByClassName('leaflet-control-measure-toggle')[0]
+        .className += ' fas fa-ruler';
+        var bounds_group = new L.featureGroup([]);
+        function setBounds() {
+        }
+        function pop_18_PROVNCIAS_0(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (i in e.target._eventParents) {
+                        e.target._eventParents[i].resetStyle(e.target);
+                    }
+                    if (typeof layer.closePopup == 'function') {
+                        layer.closePopup();
+                    } else {
+                        layer.eachLayer(function(feature){
+                            feature.closePopup()
+                        });
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">Cod_Alfa_P</th>\
+                        <td>' + (feature.properties['Cod_Alfa_P'] !== null ? autolinker.link(feature.properties['Cod_Alfa_P'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Cod_Prov</th>\
+                        <td>' + (feature.properties['Cod_Prov'] !== null ? autolinker.link(feature.properties['Cod_Prov'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Cod_Alfa_N</th>\
+                        <td>' + (feature.properties['Cod_Alfa_N'] !== null ? autolinker.link(feature.properties['Cod_Alfa_N'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Cod_País</th>\
+                        <td>' + (feature.properties['Cod_País'] !== null ? autolinker.link(feature.properties['Cod_País'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Nome_Prov</th>\
+                        <td>' + (feature.properties['Nome_Prov'] !== null ? autolinker.link(feature.properties['Nome_Prov'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_18_PROVNCIAS_0_0() {
+            return {
+                pane: 'pane_18_PROVNCIAS_0',
+                opacity: 1,
+                color: 'rgba(232,16,16,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(196,60,57,0.0)',
+                interactive: true,
+            }
+        }
+        map.createPane('pane_18_PROVNCIAS_0');
+        map.getPane('pane_18_PROVNCIAS_0').style.zIndex = 400;
+        map.getPane('pane_18_PROVNCIAS_0').style['mix-blend-mode'] = 'normal';
+        var layer_18_PROVNCIAS_0 = new L.geoJson(json_18_PROVNCIAS_0, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_18_PROVNCIAS_0',
+            layerName: 'layer_18_PROVNCIAS_0',
+            pane: 'pane_18_PROVNCIAS_0',
+            onEachFeature: pop_18_PROVNCIAS_0,
+            style: style_18_PROVNCIAS_0_0,
+        });
+        bounds_group.addLayer(layer_18_PROVNCIAS_0);
+        map.addLayer(layer_18_PROVNCIAS_0);
+        function pop_Clientes_Sonangalp_2023_02_20_1(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (i in e.target._eventParents) {
+                        e.target._eventParents[i].resetStyle(e.target);
+                    }
+                    if (typeof layer.closePopup == 'function') {
+                        layer.closePopup();
+                    } else {
+                        layer.eachLayer(function(feature){
+                            feature.closePopup()
+                        });
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">Nome</th>\
+                        <td>' + (feature.properties['Nome'] !== null ? autolinker.link(feature.properties['Nome'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Estrada</th>\
+                        <td>' + (feature.properties['Vias'] !== null ? autolinker.link(feature.properties['Vias'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Latitude</th>\
+                        <td>' + (feature.properties['Latitude'] !== null ? autolinker.link(feature.properties['Latitude'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Longitude</th>\
+                        <td>' + (feature.properties['Longitude'] !== null ? autolinker.link(feature.properties['Longitude'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">GlobalID</th>\
+                        <td>' + (feature.properties['GlobalID'] !== null ? autolinker.link(feature.properties['GlobalID'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_Clientes_Sonangalp_2023_02_20_1_0() {
+            return {
+                pane: 'pane_Clientes_Sonangalp_2023_02_20_1',
+                radius: 3.999999999999997,
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 2.0,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(255,255,255,1.0)',
+                interactive: true,
+            }
+        }
+        map.createPane('pane_Clientes_Sonangalp_2023_02_20_1');
+        map.getPane('pane_Clientes_Sonangalp_2023_02_20_1').style.zIndex = 401;
+        map.getPane('pane_Clientes_Sonangalp_2023_02_20_1').style['mix-blend-mode'] = 'normal';
+        var layer_Clientes_Sonangalp_2023_02_20_1 = new L.geoJson(json_Clientes_Sonangalp_2023_02_20_1, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_Clientes_Sonangalp_2023_02_20_1',
+            layerName: 'layer_Clientes_Sonangalp_2023_02_20_1',
+            pane: 'pane_Clientes_Sonangalp_2023_02_20_1',
+            onEachFeature: pop_Clientes_Sonangalp_2023_02_20_1,
+            pointToLayer: function (feature, latlng) {
+                var context = {
+                    feature: feature,
+                    variables: {}
+                };
+                return L.circleMarker(latlng, style_Clientes_Sonangalp_2023_02_20_1_0(feature));
+            },
+        });
+        bounds_group.addLayer(layer_Clientes_Sonangalp_2023_02_20_1);
+        map.addLayer(layer_Clientes_Sonangalp_2023_02_20_1);
+        var osmGeocoder = new L.Control.Geocoder({
+            collapsed: true,
+            position: 'topleft',
+            text: 'Search',
+            title: 'Testing'
+        }).addTo(map);
+        document.getElementsByClassName('leaflet-control-geocoder-icon')[0]
+        .className += ' fa fa-search';
+        document.getElementsByClassName('leaflet-control-geocoder-icon')[0]
+        .title += 'Search for a place';
+        setBounds();
+        var i = 0;
+        layer_18_PROVNCIAS_0.eachLayer(function(layer) {
+            var context = {
+                feature: layer.feature,
+                variables: {}
+            };
+            layer.bindTooltip((layer.feature.properties['Nome_Prov'] !== null?String('<div style="color: #323232; font-size: 10pt; font-family: \'Open Sans\', sans-serif;">' + layer.feature.properties['Nome_Prov']) + '</div>':''), {permanent: true, offset: [-0, -16], className: 'css_18_PROVNCIAS_0'});
+            labels.push(layer);
+            totalMarkers += 1;
+              layer.added = true;
+              addLabel(layer, i);
+              i++;
+        });
+        var mapDiv = document.getElementById('map');
+        var row = document.createElement('div');
+        row.className="row";
+        row.id="all";
+        row.style.height = "100%";
+        var col1 = document.createElement('div');
+        col1.className="col9";
+        col1.id = "mapWindow";
+        col1.style.height = "99%";
+        col1.style.width = "80%";
+        col1.style.display = "inline-block";
+        var col2 = document.createElement('div');
+        col2.className="col3";
+        col2.id = "menu";
+        col2.style.display = "inline-block";
+        mapDiv.parentNode.insertBefore(row, mapDiv);
+        document.getElementById("all").appendChild(col1);
+        document.getElementById("all").appendChild(col2);
+        col1.appendChild(mapDiv)
+        var Filters = {"Nome": "str","Vias": "str"};
+        function filterFunc() {
+          map.eachLayer(function(lyr){
+          if ("options" in lyr && "dataVar" in lyr["options"]){
+            features = this[lyr["options"]["dataVar"]].features.slice(0);
+            try{
+              for (key in Filters){
+                keyS = key.replace(/[^a-zA-Z0-9_]/g, "")
+                if (Filters[key] == "str" || Filters[key] == "bool"){
+                  var selection = [];
+                  var options = document.getElementById("sel_" + keyS).options
+                  for (var i=0; i < options.length; i++) {
+                    if (options[i].selected) selection.push(options[i].value);
+                  }
+                    try{
+                      if (key in features[0].properties){
+                        for (i = features.length - 1;
+                          i >= 0; --i){
+                          if (selection.indexOf(
+                          features[i].properties[key])<0
+                          && selection.length>0) {
+                          features.splice(i,1);
+                          }
+                        }
+                      }
+                    } catch(err){
+                  }
+                }
+                if (Filters[key] == "int"){
+                  sliderVals =  document.getElementById(
+                    "div_" + keyS).noUiSlider.get();
+                  try{
+                    if (key in features[0].properties){
+                    for (i = features.length - 1; i >= 0; --i){
+                      if (parseInt(features[i].properties[key])
+                          < sliderVals[0]
+                          || parseInt(features[i].properties[key])
+                          > sliderVals[1]){
+                            features.splice(i,1);
+                          }
+                        }
+                      }
+                    } catch(err){
+                    }
+                  }
+                if (Filters[key] == "real"){
+                  sliderVals =  document.getElementById(
+                    "div_" + keyS).noUiSlider.get();
+                  try{
+                    if (key in features[0].properties){
+                    for (i = features.length - 1; i >= 0; --i){
+                      if (features[i].properties[key]
+                          < sliderVals[0]
+                          || features[i].properties[key]
+                          > sliderVals[1]){
+                            features.splice(i,1);
+                          }
+                        }
+                      }
+                    } catch(err){
+                    }
+                  }
+                if (Filters[key] == "date"
+                  || Filters[key] == "datetime"
+                  || Filters[key] == "time"){
+                  try{
+                    if (key in features[0].properties){
+                      HTMLkey = key.replace(/[&\/\\#,+()$~%.'":*?<>{} ]/g, '');
+                      startdate = document.getElementById("dat_" +
+                        HTMLkey + "_date1").value.replace(" ", "T");
+                      enddate = document.getElementById("dat_" +
+                        HTMLkey + "_date2").value.replace(" ", "T");
+                      for (i = features.length - 1; i >= 0; --i){
+                        if (features[i].properties[key] < startdate
+                          || features[i].properties[key] > enddate){
+                          features.splice(i,1);
+                        }
+                      }
+                    }
+                  } catch(err){
+                  }
+                }
+              }
+            } catch(err){
+            }
+          this[lyr["options"]["layerName"]].clearLayers();
+          this[lyr["options"]["layerName"]].addData(features);
+        var i = 0;
+        layer_18_PROVNCIAS_0.eachLayer(function(layer) {
+            var context = {
+                feature: layer.feature,
+                variables: {}
+            };
+            layer.bindTooltip((layer.feature.properties['Nome_Prov'] !== null?String('<div style="color: #323232; font-size: 10pt; font-family: \'Open Sans\', sans-serif;">' + layer.feature.properties['Nome_Prov']) + '</div>':''), {permanent: true, offset: [-0, -16], className: 'css_18_PROVNCIAS_0'});
+            labels.push(layer);
+            totalMarkers += 1;
+              layer.added = true;
+              addLabel(layer, i);
+              i++;
+        });
+          }
+          })
+        }
+            document.getElementById("menu").appendChild(
+                document.createElement("div"));
+            var div_Nome = document.createElement('div');
+            div_Nome.id = "div_Nome";
+            div_Nome.className= "filterselect";
+            document.getElementById("menu").appendChild(div_Nome);
+            sel_Nome = document.createElement('select');
+            sel_Nome.multiple = true;
+            sel_Nome.size = 10;
+            sel_Nome.id = "sel_Nome";
+            var Nome_options_str = "<option value='' unselected></option>";
+            sel_Nome.onchange = function(){filterFunc()};
+            Nome_options_str  += '<option value="A.K.N- Com. a Grosso e Ret.Prest de Ser-PAC Zango">A.K.N- Com. a Grosso e Ret.Prest de Ser-PAC Zango</option>';
+            Nome_options_str  += '<option value="AAA - Activos, Lda">AAA - Activos, Lda</option>';
+            Nome_options_str  += '<option value="AAA Activo Caxito">AAA Activo Caxito</option>';
+            Nome_options_str  += '<option value="ACAIL Angola-Indústria e Comércio de Ferro, S.A">ACAIL Angola-Indústria e Comércio de Ferro, S.A</option>';
+            Nome_options_str  += '<option value="ACK - Games,  S.A">ACK - Games,  S.A</option>';
+            Nome_options_str  += '<option value="ADCN- Limitada">ADCN- Limitada</option>';
+            Nome_options_str  += '<option value="ALDO Construções e Serviços, Lda">ALDO Construções e Serviços, Lda</option>';
+            Nome_options_str  += '<option value="AMT (Angola) Trading, Lda">AMT (Angola) Trading, Lda</option>';
+            Nome_options_str  += '<option value="ANDALI - Prestação de Serviços, Lda">ANDALI - Prestação de Serviços, Lda</option>';
+            Nome_options_str  += '<option value="ANGLOBAL-Comércio Indústria e Serviços, SA">ANGLOBAL-Comércio Indústria e Serviços, SA</option>';
+            Nome_options_str  += '<option value="ANGORECOIL, Lda">ANGORECOIL, Lda</option>';
+            Nome_options_str  += '<option value="ANGOSTONE-Construções  e Rochas Ornamentais, Lda">ANGOSTONE-Construções  e Rochas Ornamentais, Lda</option>';
+            Nome_options_str  += '<option value="AP FOODS- Indústria Alimentares, Lda">AP FOODS- Indústria Alimentares, Lda</option>';
+            Nome_options_str  += '<option value="Active- Beauty Cosmetics, Lda">Active- Beauty Cosmetics, Lda</option>';
+            Nome_options_str  += '<option value="Adalberto Nhinguica">Adalberto Nhinguica</option>';
+            Nome_options_str  += '<option value="Adelino Marcelo">Adelino Marcelo</option>';
+            Nome_options_str  += '<option value="Adelino Marcelo - PAC Cacula">Adelino Marcelo - PAC Cacula</option>';
+            Nome_options_str  += '<option value="Adelino Marcelo - PAC Nambambi">Adelino Marcelo - PAC Nambambi</option>';
+            Nome_options_str  += '<option value="Adelino Marcelo - PAC Tundavala">Adelino Marcelo - PAC Tundavala</option>';
+            Nome_options_str  += '<option value="Aderito Alberto Vicente Cabral- PAC Cacula">Aderito Alberto Vicente Cabral- PAC Cacula</option>';
+            Nome_options_str  += '<option value="Aderito Vicente Cabral- PAC Tundavala">Aderito Vicente Cabral- PAC Tundavala</option>';
+            Nome_options_str  += '<option value="Adilson Ferreira -Comercio Geral e Prest. de Serv.">Adilson Ferreira -Comercio Geral e Prest. de Serv.</option>';
+            Nome_options_str  += '<option value="Administração do Distrito de Cabolombo">Administração do Distrito de Cabolombo</option>';
+            Nome_options_str  += '<option value="Adricla Empreendimentos, Lda">Adricla Empreendimentos, Lda</option>';
+            Nome_options_str  += '<option value="Afavias-Engenharia e Construções, SA-Sucursal Ang">Afavias-Engenharia e Construções, SA-Sucursal Ang</option>';
+            Nome_options_str  += '<option value="Afonso Simão Mioca Mazecusso-"D.A. Comercial"">Afonso Simão Mioca Mazecusso-"D.A. Comercial"</option>';
+            Nome_options_str  += '<option value="Africa - Future - Comércio Geral e Indústria Lda">Africa - Future - Comércio Geral e Indústria Lda</option>';
+            Nome_options_str  += '<option value="Africana Discount, Lda">Africana Discount, Lda</option>';
+            Nome_options_str  += '<option value="Afrilarme - Eletrónica e Segurança Limitada">Afrilarme - Eletrónica e Segurança Limitada</option>';
+            Nome_options_str  += '<option value="Agri-Mumba-Gestão ,E. DE P.E A.Industrial L LDA">Agri-Mumba-Gestão ,E. DE P.E A.Industrial L LDA</option>';
+            Nome_options_str  += '<option value="Agro-Quibala-Limitada">Agro-Quibala-Limitada</option>';
+            Nome_options_str  += '<option value="Agropecuaria do Bailundo S.A">Agropecuaria do Bailundo S.A</option>';
+            Nome_options_str  += '<option value="Agroquiminha, LDA">Agroquiminha, LDA</option>';
+            Nome_options_str  += '<option value="Agroterre- Agro-Indústria Pecuária e Comércio, SA">Agroterre- Agro-Indústria Pecuária e Comércio, SA</option>';
+            Nome_options_str  += '<option value="Alberto Vasco Epalanga (A.V.E. Comercial)">Alberto Vasco Epalanga (A.V.E. Comercial)</option>';
+            Nome_options_str  += '<option value="Alfermetal , SA">Alfermetal , SA</option>';
+            Nome_options_str  += '<option value="Alimentos Saborosos-Comércio e Indústria S.A.">Alimentos Saborosos-Comércio e Indústria S.A.</option>';
+            Nome_options_str  += '<option value="Almina Angola- Investimento Mineiros, SA">Almina Angola- Investimento Mineiros, SA</option>';
+            Nome_options_str  += '<option value="Aloape Lda">Aloape Lda</option>';
+            Nome_options_str  += '<option value="Alpla Angola Plástico, LDA">Alpla Angola Plástico, LDA</option>';
+            Nome_options_str  += '<option value="Alva Fishing - Companhia de Pescas">Alva Fishing - Companhia de Pescas</option>';
+            Nome_options_str  += '<option value="Alva Fishing- Companhia de Pescas, Limitada">Alva Fishing- Companhia de Pescas, Limitada</option>';
+            Nome_options_str  += '<option value="Amanjana, Lda-PAC Cambongue">Amanjana, Lda-PAC Cambongue</option>';
+            Nome_options_str  += '<option value="Amanjana, Limitada">Amanjana, Limitada</option>';
+            Nome_options_str  += '<option value="Amanjana, Limitada (PAC Cussesse)">Amanjana, Limitada (PAC Cussesse)</option>';
+            Nome_options_str  += '<option value="Anabela Martins Quental Caldeira-PAC Minhota">Anabela Martins Quental Caldeira-PAC Minhota</option>';
+            Nome_options_str  += '<option value="Ango Natural PF- Comércio e Indústria PAC Tomboco">Ango Natural PF- Comércio e Indústria PAC Tomboco</option>';
+            Nome_options_str  += '<option value="Ango-ERI-Comercio Geral Import e export, Lda">Ango-ERI-Comercio Geral Import e export, Lda</option>';
+            Nome_options_str  += '<option value="Angobarato - Comércio Geral, Lda - PAC Chimbululo">Angobarato - Comércio Geral, Lda - PAC Chimbululo</option>';
+            Nome_options_str  += '<option value="Angobarato-Comércio Geral, Lda -PA Nova Vida">Angobarato-Comércio Geral, Lda -PA Nova Vida</option>';
+            Nome_options_str  += '<option value="Angocap Indústrial, Lda">Angocap Indústrial, Lda</option>';
+            Nome_options_str  += '<option value="Angofar - PAC Regedoria">Angofar - PAC Regedoria</option>';
+            Nome_options_str  += '<option value="Angoflex Industrial, Lda">Angoflex Industrial, Lda</option>';
+            Nome_options_str  += '<option value="Angoltec-Metalomecanic de Angola, Lda">Angoltec-Metalomecanic de Angola, Lda</option>';
+            Nome_options_str  += '<option value="Angomart-Cash & Carry, Lda">Angomart-Cash & Carry, Lda</option>';
+            Nome_options_str  += '<option value="Anhe Internacional, Lda">Anhe Internacional, Lda</option>';
+            Nome_options_str  += '<option value="Anijota,Lda -PAC Zango">Anijota,Lda -PAC Zango</option>';
+            Nome_options_str  += '<option value="Anjani Food e Beverages, Lda">Anjani Food e Beverages, Lda</option>';
+            Nome_options_str  += '<option value="António Figueiredo, Lda">António Figueiredo, Lda</option>';
+            Nome_options_str  += '<option value="António João -PAC Bimbas">António João -PAC Bimbas</option>';
+            Nome_options_str  += '<option value="António Mbenza Comercial-IMP.E Explortação (PAC)">António Mbenza Comercial-IMP.E Explortação (PAC)</option>';
+            Nome_options_str  += '<option value="António Olivio Aldair, Lda - PA Hóque">António Olivio Aldair, Lda - PA Hóque</option>';
+            Nome_options_str  += '<option value="António Olivio Aldair- PAC Cacula">António Olivio Aldair- PAC Cacula</option>';
+            Nome_options_str  += '<option value="António Olivio Aldair_ PAC Calumbilo">António Olivio Aldair_ PAC Calumbilo</option>';
+            Nome_options_str  += '<option value="António dos Santos - PA Hóque">António dos Santos - PA Hóque</option>';
+            Nome_options_str  += '<option value="António dos Santos_ PAC Calumbilo">António dos Santos_ PAC Calumbilo</option>';
+            Nome_options_str  += '<option value="Aquacita, Lda">Aquacita, Lda</option>';
+            Nome_options_str  += '<option value="Arlindo Correia Angola- Construção e Engenharia">Arlindo Correia Angola- Construção e Engenharia</option>';
+            Nome_options_str  += '<option value="Arlindo Correia Angola- Indústria, SA">Arlindo Correia Angola- Indústria, SA</option>';
+            Nome_options_str  += '<option value="Armando da Costa Domingos">Armando da Costa Domingos</option>';
+            Nome_options_str  += '<option value="Armando da Costa Domingos - PAC Cafito I">Armando da Costa Domingos - PAC Cafito I</option>';
+            Nome_options_str  += '<option value="Armando de Freitas Ramos, Lda - PA Calohombo">Armando de Freitas Ramos, Lda - PA Calohombo</option>';
+            Nome_options_str  += '<option value="Arrow Invest, S.A.">Arrow Invest, S.A.</option>';
+            Nome_options_str  += '<option value="Augusto José de Almeida de Sousa - PAC Mundial">Augusto José de Almeida de Sousa - PAC Mundial</option>';
+            Nome_options_str  += '<option value="Augusto Sousa - PA Baia">Augusto Sousa - PA Baia</option>';
+            Nome_options_str  += '<option value="Augusto Sousa Platô - PA Bairro Popular">Augusto Sousa Platô - PA Bairro Popular</option>';
+            Nome_options_str  += '<option value="Augusto Sousa_PA Benfica">Augusto Sousa_PA Benfica</option>';
+            Nome_options_str  += '<option value="Auto-Sueco Angola SA">Auto-Sueco Angola SA</option>';
+            Nome_options_str  += '<option value="Avena Comercial Lda">Avena Comercial Lda</option>';
+            Nome_options_str  += '<option value="B.F.K. Transporte e Logística, Limitada">B.F.K. Transporte e Logística, Limitada</option>';
+            Nome_options_str  += '<option value="B.I.L. - Business, Limitada">B.I.L. - Business, Limitada</option>';
+            Nome_options_str  += '<option value="BAS - Best African Solutions, Lda">BAS - Best African Solutions, Lda</option>';
+            Nome_options_str  += '<option value="BENGOBRITAS - Pedreiros do Bengo, Limitada">BENGOBRITAS - Pedreiros do Bengo, Limitada</option>';
+            Nome_options_str  += '<option value="Base Sólida- Sociedade Industrial, Lda">Base Sólida- Sociedade Industrial, Lda</option>';
+            Nome_options_str  += '<option value="Basel Angola SA-Sociedade de Detergentes, S.A.">Basel Angola SA-Sociedade de Detergentes, S.A.</option>';
+            Nome_options_str  += '<option value="Bayview - Gestão e Manutenção de Edifícios, Lda">Bayview - Gestão e Manutenção de Edifícios, Lda</option>';
+            Nome_options_str  += '<option value="Betamix, Limitada">Betamix, Limitada</option>';
+            Nome_options_str  += '<option value="Biocom-Companhia de Bioenergia de Angola Lda">Biocom-Companhia de Bioenergia de Angola Lda</option>';
+            Nome_options_str  += '<option value="Bloco de Representações, SA - Chitaka">Bloco de Representações, SA - Chitaka</option>';
+            Nome_options_str  += '<option value="Bolloré Africa Logístics Angola, Lda">Bolloré Africa Logístics Angola, Lda</option>';
+            Nome_options_str  += '<option value="Bravo & Associados - Comércio Geral, Lda">Bravo & Associados - Comércio Geral, Lda</option>';
+            Nome_options_str  += '<option value="C.G.C.R. - PAC Cambulo">C.G.C.R. - PAC Cambulo</option>';
+            Nome_options_str  += '<option value="CEIEC Angola, Limitada">CEIEC Angola, Limitada</option>';
+            Nome_options_str  += '<option value="CERBAB- Comércio e Indústria, SARL">CERBAB- Comércio e Indústria, SARL</option>';
+            Nome_options_str  += '<option value="CGC - Overseas Construction Angola, Limitada">CGC - Overseas Construction Angola, Limitada</option>';
+            Nome_options_str  += '<option value="CGGC- Engenharia Angola. Limitada">CGGC- Engenharia Angola. Limitada</option>';
+            Nome_options_str  += '<option value="CLASSIOVOS-Centro de Classif. de ovos, LDA">CLASSIOVOS-Centro de Classif. de ovos, LDA</option>';
+            Nome_options_str  += '<option value="CMNF-Serviços, Lda - PAC Calueque">CMNF-Serviços, Lda - PAC Calueque</option>';
+            Nome_options_str  += '<option value="CMNF-Serviços, Lda - PAC Chiúlo">CMNF-Serviços, Lda - PAC Chiúlo</option>';
+            Nome_options_str  += '<option value="CMNF-Serviços, Lda - PAC Cuamato">CMNF-Serviços, Lda - PAC Cuamato</option>';
+            Nome_options_str  += '<option value="CND - Companhia Nacional de Distribuição, Limitada">CND - Companhia Nacional de Distribuição, Limitada</option>';
+            Nome_options_str  += '<option value="CNQC- Qingjian Group Co, Lta, Surcusal em Angola">CNQC- Qingjian Group Co, Lta, Surcusal em Angola</option>';
+            Nome_options_str  += '<option value="CONFERGEPO,S.A (Fazenda Camacupa -Bié)">CONFERGEPO,S.A (Fazenda Camacupa -Bié)</option>';
+            Nome_options_str  += '<option value="CSR - Central de Serviços Rodoviários, Limitada">CSR - Central de Serviços Rodoviários, Limitada</option>';
+            Nome_options_str  += '<option value="CUCA - Companhia União de Cervejas de Angola">CUCA - Companhia União de Cervejas de Angola</option>';
+            Nome_options_str  += '<option value="Cabire Alimentos, Limitada">Cabire Alimentos, Limitada</option>';
+            Nome_options_str  += '<option value="Cafuku-Fuku_ PAC Quilemba">Cafuku-Fuku_ PAC Quilemba</option>';
+            Nome_options_str  += '<option value="Caluuí, Lda - PAC Camama">Caluuí, Lda - PAC Camama</option>';
+            Nome_options_str  += '<option value="Caminho de Ferro de Moçâmedes - EP.">Caminho de Ferro de Moçâmedes - EP.</option>';
+            Nome_options_str  += '<option value="CargoPlus, Lda">CargoPlus, Lda</option>';
+            Nome_options_str  += '<option value="Carlos A. J. da S.(Opcional & Sugestivo)-PAC Zango">Carlos A. J. da S.(Opcional & Sugestivo)-PAC Zango</option>';
+            Nome_options_str  += '<option value="Carrinho Empreendimentos-Indústria, Limitada">Carrinho Empreendimentos-Indústria, Limitada</option>';
+            Nome_options_str  += '<option value="Carta Restauração e Serviços. Lda">Carta Restauração e Serviços. Lda</option>';
+            Nome_options_str  += '<option value="Carvalheiras & Filhos, Limitada">Carvalheiras & Filhos, Limitada</option>';
+            Nome_options_str  += '<option value="Casais Angola, Eng.e Constução, SA">Casais Angola, Eng.e Constução, SA</option>';
+            Nome_options_str  += '<option value="Casamundo-Comércio Geral, Lda">Casamundo-Comércio Geral, Lda</option>';
+            Nome_options_str  += '<option value="Cedniro (SU), Lda PAC Zango">Cedniro (SU), Lda PAC Zango</option>';
+            Nome_options_str  += '<option value="Centro Cerro Angola-Constr.Civ.e.Ob. Públicas, SA">Centro Cerro Angola-Constr.Civ.e.Ob. Públicas, SA</option>';
+            Nome_options_str  += '<option value="Chimbemba Full service, Lda">Chimbemba Full service, Lda</option>';
+            Nome_options_str  += '<option value="China Harbour Eng. C. - Sucursal Angola,Lda (CHEC)">China Harbour Eng. C. - Sucursal Angola,Lda (CHEC)</option>';
+            Nome_options_str  += '<option value="China Road e Bridge Corporaction Surcusal de Angol">China Road e Bridge Corporaction Surcusal de Angol</option>';
+            Nome_options_str  += '<option value="China Road e Bridge Corporaction Surcusal-(CAXITO)">China Road e Bridge Corporaction Surcusal-(CAXITO)</option>';
+            Nome_options_str  += '<option value="China Road e Bridge Corporaction-MBanza Congo">China Road e Bridge Corporaction-MBanza Congo</option>';
+            Nome_options_str  += '<option value="China Roand e Bridge Corporation (CRBC MUPA)">China Roand e Bridge Corporation (CRBC MUPA)</option>';
+            Nome_options_str  += '<option value="China Tiesuiju Civil Enginnering Group Co, Lda">China Tiesuiju Civil Enginnering Group Co, Lda</option>';
+            Nome_options_str  += '<option value="Chitaka-Empreendimentos Hoteleiros, S.A.">Chitaka-Empreendimentos Hoteleiros, S.A.</option>';
+            Nome_options_str  += '<option value="Cimenfort Industrial, Lda">Cimenfort Industrial, Lda</option>';
+            Nome_options_str  += '<option value="Cimianto">Cimianto</option>';
+            Nome_options_str  += '<option value="Clube Nautico da Ilha de Luanda">Clube Nautico da Ilha de Luanda</option>';
+            Nome_options_str  += '<option value="Clube Naval de Luanda-PA Clube Naval">Clube Naval de Luanda-PA Clube Naval</option>';
+            Nome_options_str  += '<option value="Cobeje-Companhia de Bebidas de Bom Jesus,S.A.">Cobeje-Companhia de Bebidas de Bom Jesus,S.A.</option>';
+            Nome_options_str  += '<option value="Companhia Castel de Bebidas de Luanda - CCBL, S.A">Companhia Castel de Bebidas de Luanda - CCBL, S.A</option>';
+            Nome_options_str  += '<option value="Companhia Siderúrgica do Cuchi, SA">Companhia Siderúrgica do Cuchi, SA</option>';
+            Nome_options_str  += '<option value="Comser">Comser</option>';
+            Nome_options_str  += '<option value="Condominio Presidente business Center">Condominio Presidente business Center</option>';
+            Nome_options_str  += '<option value="Condomínio Alpha - Residências">Condomínio Alpha - Residências</option>';
+            Nome_options_str  += '<option value="Condomínio Alpha Escritórios">Condomínio Alpha Escritórios</option>';
+            Nome_options_str  += '<option value="Condomínio Edifício Acacias Place- Benguela">Condomínio Edifício Acacias Place- Benguela</option>';
+            Nome_options_str  += '<option value="Condomínio Residencial Vales Passaros">Condomínio Residencial Vales Passaros</option>';
+            Nome_options_str  += '<option value="Condomínio Residência de Talatona">Condomínio Residência de Talatona</option>';
+            Nome_options_str  += '<option value="Condomínio Torre X">Condomínio Torre X</option>';
+            Nome_options_str  += '<option value="Condomínio Viana Park">Condomínio Viana Park</option>';
+            Nome_options_str  += '<option value="Condomínio Zenith Towers">Condomínio Zenith Towers</option>';
+            Nome_options_str  += '<option value="Conduril-Engenharia, S.A Surcusal Angola">Conduril-Engenharia, S.A Surcusal Angola</option>';
+            Nome_options_str  += '<option value="Congele Pescas e Congelação, Lda">Congele Pescas e Congelação, Lda</option>';
+            Nome_options_str  += '<option value="Consmavu, Lda">Consmavu, Lda</option>';
+            Nome_options_str  += '<option value="Construtora Andrade Gutierrez- Sucursal Angola">Construtora Andrade Gutierrez- Sucursal Angola</option>';
+            Nome_options_str  += '<option value="Construtora Norberto Odebrecht, SA-Surcusal Angola">Construtora Norberto Odebrecht, SA-Surcusal Angola</option>';
+            Nome_options_str  += '<option value="Construções Coruper, Lda - PAC Conda">Construções Coruper, Lda - PAC Conda</option>';
+            Nome_options_str  += '<option value="Costa Blanca Angola-Com. Ind e Prest de Serv, Lda">Costa Blanca Angola-Com. Ind e Prest de Serv, Lda</option>';
+            Nome_options_str  += '<option value="Cross África, Lda">Cross África, Lda</option>';
+            Nome_options_str  += '<option value="DCV-Investimentos, Lda">DCV-Investimentos, Lda</option>';
+            Nome_options_str  += '<option value="DREAMSERVICE, LDA">DREAMSERVICE, LDA</option>';
+            Nome_options_str  += '<option value="Dalelya, Lda- PAC Centralidade">Dalelya, Lda- PAC Centralidade</option>';
+            Nome_options_str  += '<option value="Dalelya,Lda- PAC Floresta">Dalelya,Lda- PAC Floresta</option>';
+            Nome_options_str  += '<option value="David M. Mercê Montez-Com a G e R -PA Musseque">David M. Mercê Montez-Com a G e R -PA Musseque</option>';
+            Nome_options_str  += '<option value="David M. Mercê Montez-Com a G e R -PAC Estalagem">David M. Mercê Montez-Com a G e R -PAC Estalagem</option>';
+            Nome_options_str  += '<option value="David M. Mercê Montez-Com a G e R -PAC TOMBOCO">David M. Mercê Montez-Com a G e R -PAC TOMBOCO</option>';
+            Nome_options_str  += '<option value="David M. Mercê Montez-Com. a G e R -PAC CUIMBA">David M. Mercê Montez-Com. a G e R -PAC CUIMBA</option>';
+            Nome_options_str  += '<option value="David de Oliveira Fundu-ANG-Oliveira Comercial">David de Oliveira Fundu-ANG-Oliveira Comercial</option>';
+            Nome_options_str  += '<option value="Delight Catering,Lda">Delight Catering,Lda</option>';
+            Nome_options_str  += '<option value="Delta Steel Mill, Lda">Delta Steel Mill, Lda</option>';
+            Nome_options_str  += '<option value="Domingos Javala - PAC Mutundo">Domingos Javala - PAC Mutundo</option>';
+            Nome_options_str  += '<option value="Domingos Javala- PAC EYWA">Domingos Javala- PAC EYWA</option>';
+            Nome_options_str  += '<option value="Domingos da Silva Teixeira - Angola S.A">Domingos da Silva Teixeira - Angola S.A</option>';
+            Nome_options_str  += '<option value="Drinco- Indústria de Bebidas Lda">Drinco- Indústria de Bebidas Lda</option>';
+            Nome_options_str  += '<option value="E.K.B-Empreendimentos Kiaku Mbuta & Filhos, Lda">E.K.B-Empreendimentos Kiaku Mbuta & Filhos, Lda</option>';
+            Nome_options_str  += '<option value="EDUCARE- Actividades Edudativas e Culturais, Lda">EDUCARE- Actividades Edudativas e Culturais, Lda</option>';
+            Nome_options_str  += '<option value="EGIVIAS - CONSTRUCOES ,LDA">EGIVIAS - CONSTRUCOES ,LDA</option>';
+            Nome_options_str  += '<option value="EKA - Empresa Angolana de Cervejas S.A.R.L.">EKA - Empresa Angolana de Cervejas S.A.R.L.</option>';
+            Nome_options_str  += '<option value="EMADEL- Empresa de Madeiras, Limitada">EMADEL- Empresa de Madeiras, Limitada</option>';
+            Nome_options_str  += '<option value="EMBALVIDRO- Indústria (SU), Lda">EMBALVIDRO- Indústria (SU), Lda</option>';
+            Nome_options_str  += '<option value="ENGEVIA - Construção Civil e Obras Públicas, Lda">ENGEVIA - Construção Civil e Obras Públicas, Lda</option>';
+            Nome_options_str  += '<option value="ENGEVIA-Construção C e Obras Públicas(Ambiental)">ENGEVIA-Construção C e Obras Públicas(Ambiental)</option>';
+            Nome_options_str  += '<option value="ENGEVIA-Construção C e Obras Públicas, Lda (Bengo)">ENGEVIA-Construção C e Obras Públicas, Lda (Bengo)</option>';
+            Nome_options_str  += '<option value="ENGEVIA-Construção C e Obras Públicas, Lda (Bié)">ENGEVIA-Construção C e Obras Públicas, Lda (Bié)</option>';
+            Nome_options_str  += '<option value="ENGEVIA-Construção C e Obras Públicas, Lda (Nóqui)">ENGEVIA-Construção C e Obras Públicas, Lda (Nóqui)</option>';
+            Nome_options_str  += '<option value="ENGEVIA-Construção C e Obras Públicas, Lda (Uíge)">ENGEVIA-Construção C e Obras Públicas, Lda (Uíge)</option>';
+            Nome_options_str  += '<option value="ESA-Engineering Services Angola Limitada">ESA-Engineering Services Angola Limitada</option>';
+            Nome_options_str  += '<option value="Ecochemico Industrial, Lda">Ecochemico Industrial, Lda</option>';
+            Nome_options_str  += '<option value="Ecoverde, Lda">Ecoverde, Lda</option>';
+            Nome_options_str  += '<option value="Edson Vaz de Almeida- EPVA comercial- PAC Sequele">Edson Vaz de Almeida- EPVA comercial- PAC Sequele</option>';
+            Nome_options_str  += '<option value="Elecnor Serviçios Y Proyectos, S.A.U">Elecnor Serviçios Y Proyectos, S.A.U</option>';
+            Nome_options_str  += '<option value="Elecnor, S.A Surcusal de Angola">Elecnor, S.A Surcusal de Angola</option>';
+            Nome_options_str  += '<option value="ElectroGreen-Sistemas de Energia, Lda">ElectroGreen-Sistemas de Energia, Lda</option>';
+            Nome_options_str  += '<option value="Elevo Engenharia, Lda">Elevo Engenharia, Lda</option>';
+            Nome_options_str  += '<option value="Elimar- Comércio e & Serviços Lda_ PAC Eywa">Elimar- Comércio e & Serviços Lda_ PAC Eywa</option>';
+            Nome_options_str  += '<option value="Elimar- Comércio e & Serviços Lda_ PAC Ferrovia">Elimar- Comércio e & Serviços Lda_ PAC Ferrovia</option>';
+            Nome_options_str  += '<option value="Elizângela P. dos Ramos Vieira-PAC Calombotão">Elizângela P. dos Ramos Vieira-PAC Calombotão</option>';
+            Nome_options_str  += '<option value="Elsa B. da Conceição Belchior-PAC Mapunda de Baixo">Elsa B. da Conceição Belchior-PAC Mapunda de Baixo</option>';
+            Nome_options_str  += '<option value="Embaixada do Reino de Espanha - Coop. Española">Embaixada do Reino de Espanha - Coop. Española</option>';
+            Nome_options_str  += '<option value="Emiliano Jamba">Emiliano Jamba</option>';
+            Nome_options_str  += '<option value="Emonsa, Lda - PAC Cabo Lombo">Emonsa, Lda - PAC Cabo Lombo</option>';
+            Nome_options_str  += '<option value="Emonsa, Lda -PA Oásis">Emonsa, Lda -PA Oásis</option>';
+            Nome_options_str  += '<option value="Empreendimentos GA ( Clientes Directos )">Empreendimentos GA ( Clientes Directos )</option>';
+            Nome_options_str  += '<option value="Empreendimentos GA - PAC Cuaua">Empreendimentos GA - PAC Cuaua</option>';
+            Nome_options_str  += '<option value="Empreendimentos GA - PAC Hóque">Empreendimentos GA - PAC Hóque</option>';
+            Nome_options_str  += '<option value="Empreendimentos GA - PAC Mbalela">Empreendimentos GA - PAC Mbalela</option>';
+            Nome_options_str  += '<option value="Empreendimentos GA - PAC Zona Industrial">Empreendimentos GA - PAC Zona Industrial</option>';
+            Nome_options_str  += '<option value="Empresa de Cervejas NGOLA, SA">Empresa de Cervejas NGOLA, SA</option>';
+            Nome_options_str  += '<option value="Engeterra-Construções Civil e Obras Públicas">Engeterra-Construções Civil e Obras Públicas</option>';
+            Nome_options_str  += '<option value="Engevia, Lda-Projecto Kabuto">Engevia, Lda-Projecto Kabuto</option>';
+            Nome_options_str  += '<option value="Engevia-Const. Civil e Obras Públicas, Lda(LOBITO)">Engevia-Const. Civil e Obras Públicas, Lda(LOBITO)</option>';
+            Nome_options_str  += '<option value="Envirobac- Comercio Geral Limitada">Envirobac- Comercio Geral Limitada</option>';
+            Nome_options_str  += '<option value="Espalbi - Act. Comercial e Ind. Lda - PAC Funda">Espalbi - Act. Comercial e Ind. Lda - PAC Funda</option>';
+            Nome_options_str  += '<option value="Essangio Casa Comercial, Lda">Essangio Casa Comercial, Lda</option>';
+            Nome_options_str  += '<option value="Estrela Cold Angola, Lda">Estrela Cold Angola, Lda</option>';
+            Nome_options_str  += '<option value="Eusébio Joaquim Kuliakita">Eusébio Joaquim Kuliakita</option>';
+            Nome_options_str  += '<option value="Evaristo Abel - Comércio Geral">Evaristo Abel - Comércio Geral</option>';
+            Nome_options_str  += '<option value="F.A Lubamba-Estaleiro Lubamba">F.A Lubamba-Estaleiro Lubamba</option>';
+            Nome_options_str  += '<option value="FAOF-Fomento de Agric. Familiar de Caconda, Lda">FAOF-Fomento de Agric. Familiar de Caconda, Lda</option>';
+            Nome_options_str  += '<option value="FATEL- Fábrica de Telhas ,Tijolos e Acessórios,Lda">FATEL- Fábrica de Telhas ,Tijolos e Acessórios,Lda</option>';
+            Nome_options_str  += '<option value="FPAL-Food Produtcs (Angola) Limitada">FPAL-Food Produtcs (Angola) Limitada</option>';
+            Nome_options_str  += '<option value="FSFGLOBAL- Comércio e Indústria (SU), Lda">FSFGLOBAL- Comércio e Indústria (SU), Lda</option>';
+            Nome_options_str  += '<option value="Fabicom Indústria e Construção">Fabicom Indústria e Construção</option>';
+            Nome_options_str  += '<option value="Fabrimetal, Limitada">Fabrimetal, Limitada</option>';
+            Nome_options_str  += '<option value="Faial & Filhos, Lda">Faial & Filhos, Lda</option>';
+            Nome_options_str  += '<option value="Faial & Filhos, Lda - PA Aeroporto">Faial & Filhos, Lda - PA Aeroporto</option>';
+            Nome_options_str  += '<option value="Faive - Fazenda Agrícola Ind. Vitória Etape,Lda">Faive - Fazenda Agrícola Ind. Vitória Etape,Lda</option>';
+            Nome_options_str  += '<option value="Falco-Comércio Geral, Lda ( Filial Lubango)">Falco-Comércio Geral, Lda ( Filial Lubango)</option>';
+            Nome_options_str  += '<option value="Familia Tchimbaladongo C.Geral- PAC Praia Amélia">Familia Tchimbaladongo C.Geral- PAC Praia Amélia</option>';
+            Nome_options_str  += '<option value="Fart Eart International Estate, Lda">Fart Eart International Estate, Lda</option>';
+            Nome_options_str  += '<option value="Faustino Eduardo F.E Comercial">Faustino Eduardo F.E Comercial</option>';
+            Nome_options_str  += '<option value="Fazenda 27, Limitada">Fazenda 27, Limitada</option>';
+            Nome_options_str  += '<option value="Fazenda A Pérola do Kikuxi, Lda">Fazenda A Pérola do Kikuxi, Lda</option>';
+            Nome_options_str  += '<option value="Fazenda Boa Colheita, Lda">Fazenda Boa Colheita, Lda</option>';
+            Nome_options_str  += '<option value="Fazenda Filomena, Lda">Fazenda Filomena, Lda</option>';
+            Nome_options_str  += '<option value="Fazenda Girassol Com. e Ind. Agro - Pecuária, Lda">Fazenda Girassol Com. e Ind. Agro - Pecuária, Lda</option>';
+            Nome_options_str  += '<option value="Fazenda Socamia, S.A">Fazenda Socamia, S.A</option>';
+            Nome_options_str  += '<option value="Ferlau-Comércio Geral, Lda - PA Bombeiros">Ferlau-Comércio Geral, Lda - PA Bombeiros</option>';
+            Nome_options_str  += '<option value="Fernando Augusto França">Fernando Augusto França</option>';
+            Nome_options_str  += '<option value="Fernando Augusto França Esteves- PAC Cacula">Fernando Augusto França Esteves- PAC Cacula</option>';
+            Nome_options_str  += '<option value="Fernando J S Almeirao- PAC Cambulo">Fernando J S Almeirao- PAC Cambulo</option>';
+            Nome_options_str  += '<option value="Fernando Joel de Sousa Almeirão_ PAC Quilemba">Fernando Joel de Sousa Almeirão_ PAC Quilemba</option>';
+            Nome_options_str  += '<option value="Ferpinta">Ferpinta</option>';
+            Nome_options_str  += '<option value="Fil - Tubos Angola Limitada">Fil - Tubos Angola Limitada</option>';
+            Nome_options_str  += '<option value="Fivest Gestão de Participações">Fivest Gestão de Participações</option>';
+            Nome_options_str  += '<option value="Forangola- Comércio e Prest. de Serviços(SU), Lda">Forangola- Comércio e Prest. de Serviços(SU), Lda</option>';
+            Nome_options_str  += '<option value="Framago-Prestação de Serviços,Lda-PAC Cabo Lombo">Framago-Prestação de Serviços,Lda-PAC Cabo Lombo</option>';
+            Nome_options_str  += '<option value="Francisco Ferreira Barros  Sucursal, Angola">Francisco Ferreira Barros  Sucursal, Angola</option>';
+            Nome_options_str  += '<option value="Francisco Ferreira Barros  Sucursal,Angola(Huambo)">Francisco Ferreira Barros  Sucursal,Angola(Huambo)</option>';
+            Nome_options_str  += '<option value="Future Group Industrial, SA">Future Group Industrial, SA</option>';
+            Nome_options_str  += '<option value="Fábrica de Cimentos do Kwanza Sul">Fábrica de Cimentos do Kwanza Sul</option>';
+            Nome_options_str  += '<option value="Fátima Marques & Filhos, Lda - PAC Piri">Fátima Marques & Filhos, Lda - PAC Piri</option>';
+            Nome_options_str  += '<option value="GAINVEST, S.A">GAINVEST, S.A</option>';
+            Nome_options_str  += '<option value="GESTEFLORA, Lda - PA Muceque">GESTEFLORA, Lda - PA Muceque</option>';
+            Nome_options_str  += '<option value="GLOBALFULL - Prestação de Serviços (SU), Lda">GLOBALFULL - Prestação de Serviços (SU), Lda</option>';
+            Nome_options_str  += '<option value="GRABER,LDA">GRABER,LDA</option>';
+            Nome_options_str  += '<option value="GRANISERRA-Comércio Indústria, Lda">GRANISERRA-Comércio Indústria, Lda</option>';
+            Nome_options_str  += '<option value="Galar Constroi, Lda - PA Calohombo">Galar Constroi, Lda - PA Calohombo</option>';
+            Nome_options_str  += '<option value="Ganda Família de Mauel Ferreira Ganda, Lda">Ganda Família de Mauel Ferreira Ganda, Lda</option>';
+            Nome_options_str  += '<option value="Ganuve Comercial, Lda - PA Oásis">Ganuve Comercial, Lda - PA Oásis</option>';
+            Nome_options_str  += '<option value="Gasparlvia- Com. G. e Prest de S. - PAC Calussinga">Gasparlvia- Com. G. e Prest de S. - PAC Calussinga</option>';
+            Nome_options_str  += '<option value="Gasparlvia- Comércio Geral e Prestação de Serviços">Gasparlvia- Comércio Geral e Prestação de Serviços</option>';
+            Nome_options_str  += '<option value="Genius-AFM S.A">Genius-AFM S.A</option>';
+            Nome_options_str  += '<option value="Gesland - Serviços de Gestão Imobiliária, Lda">Gesland - Serviços de Gestão Imobiliária, Lda</option>';
+            Nome_options_str  += '<option value="Ghion-Alimentos, Lda">Ghion-Alimentos, Lda</option>';
+            Nome_options_str  += '<option value="Ginalda Dionisia Romão Pinto Lucuna">Ginalda Dionisia Romão Pinto Lucuna</option>';
+            Nome_options_str  += '<option value="Glakeni-Comércio Geral,Importação e exportação,Lda">Glakeni-Comércio Geral,Importação e exportação,Lda</option>';
+            Nome_options_str  += '<option value="Glopol Angola- Indústria Lda">Glopol Angola- Indústria Lda</option>';
+            Nome_options_str  += '<option value="Goldher Parcerias Empresariais Estrategicas, Lda">Goldher Parcerias Empresariais Estrategicas, Lda</option>';
+            Nome_options_str  += '<option value="Governo da Provincia de Luanda - Secret do Governo">Governo da Provincia de Luanda - Secret do Governo</option>';
+            Nome_options_str  += '<option value="Grafernando-Comércio Geral, Lda">Grafernando-Comércio Geral, Lda</option>';
+            Nome_options_str  += '<option value="Grandes Moagens de Angola, GMA, Lda">Grandes Moagens de Angola, GMA, Lda</option>';
+            Nome_options_str  += '<option value="Gruest Angola Limitada">Gruest Angola Limitada</option>';
+            Nome_options_str  += '<option value="Grupo Agesfil Comércio e Prestação de Serv. Lda">Grupo Agesfil Comércio e Prestação de Serv. Lda</option>';
+            Nome_options_str  += '<option value="Grupo Gilnarci -Const. Civil-PAC Mapunda de Baixo">Grupo Gilnarci -Const. Civil-PAC Mapunda de Baixo</option>';
+            Nome_options_str  += '<option value="Grupo Lemapro.Lda_ PA Oásis">Grupo Lemapro.Lda_ PA Oásis</option>';
+            Nome_options_str  += '<option value="Grupo Luve, Lda ( Clientes Directos)">Grupo Luve, Lda ( Clientes Directos)</option>';
+            Nome_options_str  += '<option value="Grupo Luve, Lda - PA Alvalade">Grupo Luve, Lda - PA Alvalade</option>';
+            Nome_options_str  += '<option value="Grupo RPA & Filhos, Lda">Grupo RPA & Filhos, Lda</option>';
+            Nome_options_str  += '<option value="Grupo Varse- Logística (SU) Lda- PAC Regedoria">Grupo Varse- Logística (SU) Lda- PAC Regedoria</option>';
+            Nome_options_str  += '<option value="Guimanos-Prest.de Serviços,Lda-PA Quenguela Norte">Guimanos-Prest.de Serviços,Lda-PA Quenguela Norte</option>';
+            Nome_options_str  += '<option value="Guimanos-Prestação de Serviços, Lda- (PA Oásis)">Guimanos-Prestação de Serviços, Lda- (PA Oásis)</option>';
+            Nome_options_str  += '<option value="HCB-Constr. Civil e O. Públicas Lda_PAC Calombotão">HCB-Constr. Civil e O. Públicas Lda_PAC Calombotão</option>';
+            Nome_options_str  += '<option value="HMA - Hipermáquinas Angola">HMA - Hipermáquinas Angola</option>';
+            Nome_options_str  += '<option value="Heerema Porto Amboim,Limitada">Heerema Porto Amboim,Limitada</option>';
+            Nome_options_str  += '<option value="Hegipescas- Comércio e Pescas, Lda">Hegipescas- Comércio e Pescas, Lda</option>';
+            Nome_options_str  += '<option value="Helida-Lin-Construção Civil, Lda">Helida-Lin-Construção Civil, Lda</option>';
+            Nome_options_str  += '<option value="Hidromat">Hidromat</option>';
+            Nome_options_str  += '<option value="Hidroplanalto, Lda">Hidroplanalto, Lda</option>';
+            Nome_options_str  += '<option value="Hidráulica de Angola">Hidráulica de Angola</option>';
+            Nome_options_str  += '<option value="Hina Kitumba-Sociedade Agricola, Lda">Hina Kitumba-Sociedade Agricola, Lda</option>';
+            Nome_options_str  += '<option value="Hortangola, Lda">Hortangola, Lda</option>';
+            Nome_options_str  += '<option value="Hospital Josina Machel">Hospital Josina Machel</option>';
+            Nome_options_str  += '<option value="Hospital Pediátrico David Bernardino">Hospital Pediátrico David Bernardino</option>';
+            Nome_options_str  += '<option value="Hotel Baía, Limitada">Hotel Baía, Limitada</option>';
+            Nome_options_str  += '<option value="Huambo Expresso Transportes, Lda">Huambo Expresso Transportes, Lda</option>';
+            Nome_options_str  += '<option value="ICC Angola Limitada">ICC Angola Limitada</option>';
+            Nome_options_str  += '<option value="IDAROMÃO-Prestação de Serviçoes, Lda">IDAROMÃO-Prestação de Serviçoes, Lda</option>';
+            Nome_options_str  += '<option value="IEP-Investimentos e Participações Lda">IEP-Investimentos e Participações Lda</option>';
+            Nome_options_str  += '<option value="IMBONDEX-Const.e Mat.de Construção, S.A">IMBONDEX-Const.e Mat.de Construção, S.A</option>';
+            Nome_options_str  += '<option value="INDUVE-Industrias Angolanas de Óleos Veget., SARL">INDUVE-Industrias Angolanas de Óleos Veget., SARL</option>';
+            Nome_options_str  += '<option value="INEA">INEA</option>';
+            Nome_options_str  += '<option value="ImporTrading">ImporTrading</option>';
+            Nome_options_str  += '<option value="Inersul, SA">Inersul, SA</option>';
+            Nome_options_str  += '<option value="Inovia-Electrónica de Angola, Lda">Inovia-Electrónica de Angola, Lda</option>';
+            Nome_options_str  += '<option value="Invimosa-Imobilia, SA">Invimosa-Imobilia, SA</option>';
+            Nome_options_str  += '<option value="Isaac Feliciano">Isaac Feliciano</option>';
+            Nome_options_str  += '<option value="Isortrans, Lda">Isortrans, Lda</option>';
+            Nome_options_str  += '<option value="J.D.A. & Companh- Comer. Prestac. de Servicos, Lda">J.D.A. & Companh- Comer. Prestac. de Servicos, Lda</option>';
+            Nome_options_str  += '<option value="JL Rosa Mira, Lda">JL Rosa Mira, Lda</option>';
+            Nome_options_str  += '<option value="JOCABA Comercial ( Granel )">JOCABA Comercial ( Granel )</option>';
+            Nome_options_str  += '<option value="JOMANUALF- Com Geral e Prest.Ser,Lda -PACQuipungo">JOMANUALF- Com Geral e Prest.Ser,Lda -PACQuipungo</option>';
+            Nome_options_str  += '<option value="JPS e Filhos, Lda_PA Bombeiros">JPS e Filhos, Lda_PA Bombeiros</option>';
+            Nome_options_str  += '<option value="Jacob JK Lda ( Clientes Directos)">Jacob JK Lda ( Clientes Directos)</option>';
+            Nome_options_str  += '<option value="Jacob-JK,Lda - PA Aeroporto">Jacob-JK,Lda - PA Aeroporto</option>';
+            Nome_options_str  += '<option value="Jembas Assistência Tecnica, Lda">Jembas Assistência Tecnica, Lda</option>';
+            Nome_options_str  += '<option value="Jeremias António Chiquemba">Jeremias António Chiquemba</option>';
+            Nome_options_str  += '<option value="Joasik Consultoria, Lda">Joasik Consultoria, Lda</option>';
+            Nome_options_str  += '<option value="Jocaba Comercial - PAC Ferrovia">Jocaba Comercial - PAC Ferrovia</option>';
+            Nome_options_str  += '<option value="Jocaba Comercial - PAC Mapunda de Baixo">Jocaba Comercial - PAC Mapunda de Baixo</option>';
+            Nome_options_str  += '<option value="Jocaba Comercial - PAC Mucanca">Jocaba Comercial - PAC Mucanca</option>';
+            Nome_options_str  += '<option value="Joel Gonçalves Wassuluvala-PAC Matala">Joel Gonçalves Wassuluvala-PAC Matala</option>';
+            Nome_options_str  += '<option value="Jokial & Filhos, Lda">Jokial & Filhos, Lda</option>';
+            Nome_options_str  += '<option value="Jonas Bernado António">Jonas Bernado António</option>';
+            Nome_options_str  += '<option value="José Luís Carreira Cardoso - PAC Boa Esperança">José Luís Carreira Cardoso - PAC Boa Esperança</option>';
+            Nome_options_str  += '<option value="José Luís Carreira Cardoso - PAC Seles">José Luís Carreira Cardoso - PAC Seles</option>';
+            Nome_options_str  += '<option value="José Silva Higino Amaral">José Silva Higino Amaral</option>';
+            Nome_options_str  += '<option value="João Pedro Teixeira de Castro - PAC Cuaua">João Pedro Teixeira de Castro - PAC Cuaua</option>';
+            Nome_options_str  += '<option value="João Pedro Teixeira de Castro_ PAC Ngola">João Pedro Teixeira de Castro_ PAC Ngola</option>';
+            Nome_options_str  += '<option value="João Saponde Comercial">João Saponde Comercial</option>';
+            Nome_options_str  += '<option value="Juliana Valzenith Kapinala Pinto">Juliana Valzenith Kapinala Pinto</option>';
+            Nome_options_str  += '<option value="Juliana Valzenith Kapinala Pinto-PAC Nambambi">Juliana Valzenith Kapinala Pinto-PAC Nambambi</option>';
+            Nome_options_str  += '<option value="Julieta Reis Comercial">Julieta Reis Comercial</option>';
+            Nome_options_str  += '<option value="Kakunho-Industrial de Barro, Lda">Kakunho-Industrial de Barro, Lda</option>';
+            Nome_options_str  += '<option value="Kaleido Logistics Angola (SU),Lda">Kaleido Logistics Angola (SU),Lda</option>';
+            Nome_options_str  += '<option value="Kiang Mbuta- C. Geral, Impo. e Exportação(SU), Lda">Kiang Mbuta- C. Geral, Impo. e Exportação(SU), Lda</option>';
+            Nome_options_str  += '<option value="Kinda Home- Mobiliário e Decoração, Lda">Kinda Home- Mobiliário e Decoração, Lda</option>';
+            Nome_options_str  += '<option value="Kivulo Maka- Comércio e Serviço, (SU), Lda">Kivulo Maka- Comércio e Serviço, (SU), Lda</option>';
+            Nome_options_str  += '<option value="Kleros - Com. Geral e Indústria lda-PA Bela Vista">Kleros - Com. Geral e Indústria lda-PA Bela Vista</option>';
+            Nome_options_str  += '<option value="Kobeton, Lda">Kobeton, Lda</option>';
+            Nome_options_str  += '<option value="Kross Sky Group-Comércio Ind. e Representações,Lda">Kross Sky Group-Comércio Ind. e Representações,Lda</option>';
+            Nome_options_str  += '<option value="LAMILON- Comércio de Madeiras, Limitada">LAMILON- Comércio de Madeiras, Limitada</option>';
+            Nome_options_str  += '<option value="LMAZ - Engenharia de Edificios, Limitada">LMAZ - Engenharia de Edificios, Limitada</option>';
+            Nome_options_str  += '<option value="LOGICX-Techinical Supply, Lda">LOGICX-Techinical Supply, Lda</option>';
+            Nome_options_str  += '<option value="LSU - Limpeza e Saneamento Urbano, Ltda">LSU - Limpeza e Saneamento Urbano, Ltda</option>';
+            Nome_options_str  += '<option value="LTI - Logística e Transporte Integrados, Lda">LTI - Logística e Transporte Integrados, Lda</option>';
+            Nome_options_str  += '<option value="Lactiangol - Lacticinios de Angola, S.A">Lactiangol - Lacticinios de Angola, S.A</option>';
+            Nome_options_str  += '<option value="Lanos Transportes e Logística, Lda">Lanos Transportes e Logística, Lda</option>';
+            Nome_options_str  += '<option value="Laplata, Lda - PA Aeroporto">Laplata, Lda - PA Aeroporto</option>';
+            Nome_options_str  += '<option value="Leyroy Maria Prest .Serv.Com.G- PAC Praia Amélia">Leyroy Maria Prest .Serv.Com.G- PAC Praia Amélia</option>';
+            Nome_options_str  += '<option value="Logisbrito-Transitário, Desp. Imp. e Exportação">Logisbrito-Transitário, Desp. Imp. e Exportação</option>';
+            Nome_options_str  += '<option value="Luanday-Comércio e Serviços, Lda">Luanday-Comércio e Serviços, Lda</option>';
+            Nome_options_str  += '<option value="Lucalagro-Agricultura e Pecuaria, Lda">Lucalagro-Agricultura e Pecuaria, Lda</option>';
+            Nome_options_str  += '<option value="Luminas Sociedade Mineira, Lda">Luminas Sociedade Mineira, Lda</option>';
+            Nome_options_str  += '<option value="Lunguembia Trading, Limitada">Lunguembia Trading, Limitada</option>';
+            Nome_options_str  += '<option value="Lyon-Cosnt. e Manutenç. Metalomecânica, S.A">Lyon-Cosnt. e Manutenç. Metalomecânica, S.A</option>';
+            Nome_options_str  += '<option value="M.J.F. - PAC Arimba">M.J.F. - PAC Arimba</option>';
+            Nome_options_str  += '<option value="MAFCOM - Comércio Geral, Limitada">MAFCOM - Comércio Geral, Limitada</option>';
+            Nome_options_str  += '<option value="MATRA - Engenharia e Construção, Lda">MATRA - Engenharia e Construção, Lda</option>';
+            Nome_options_str  += '<option value="MEGA CASH - Comércio e Distribuição, S.A.">MEGA CASH - Comércio e Distribuição, S.A.</option>';
+            Nome_options_str  += '<option value="METIS - Engenharia, Limitada">METIS - Engenharia, Limitada</option>';
+            Nome_options_str  += '<option value="MOLDATERRAS- Terraplanagens e Escavações, Lda">MOLDATERRAS- Terraplanagens e Escavações, Lda</option>';
+            Nome_options_str  += '<option value="MPA">MPA</option>';
+            Nome_options_str  += '<option value="MRD Investiments, Lda">MRD Investiments, Lda</option>';
+            Nome_options_str  += '<option value="MSTR-Comércio Geral e Transportes Lda">MSTR-Comércio Geral e Transportes Lda</option>';
+            Nome_options_str  += '<option value="Makiber- Empresa de Const. e Gestão de Projectos">Makiber- Empresa de Const. e Gestão de Projectos</option>';
+            Nome_options_str  += '<option value="Manuel Carvalho Halaiwa Domingos- PAC Tundavala">Manuel Carvalho Halaiwa Domingos- PAC Tundavala</option>';
+            Nome_options_str  += '<option value="Mar e Bev, Lda -PAC Ferrovia">Mar e Bev, Lda -PAC Ferrovia</option>';
+            Nome_options_str  += '<option value="Maria Paulo Simão Comercial-Pac Cabo Lombo">Maria Paulo Simão Comercial-Pac Cabo Lombo</option>';
+            Nome_options_str  += '<option value="Meia Bota - Angola, S.A">Meia Bota - Angola, S.A</option>';
+            Nome_options_str  += '<option value="Mercado fresco de Angola LDA">Mercado fresco de Angola LDA</option>';
+            Nome_options_str  += '<option value="Mery Domingos Gonga Miguel">Mery Domingos Gonga Miguel</option>';
+            Nome_options_str  += '<option value="Metalo Sul, Limitada">Metalo Sul, Limitada</option>';
+            Nome_options_str  += '<option value="Minist. da Admin. do Território e Ref. do Estado">Minist. da Admin. do Território e Ref. do Estado</option>';
+            Nome_options_str  += '<option value="Mirvaluz-Comércio e Serviços(SU), Lda-PAC Tuco">Mirvaluz-Comércio e Serviços(SU), Lda-PAC Tuco</option>';
+            Nome_options_str  += '<option value="Mitam- comércio & Serviços, S.A">Mitam- comércio & Serviços, S.A</option>';
+            Nome_options_str  += '<option value="Moisés Moma Tengue João-PAC Seta Nova">Moisés Moma Tengue João-PAC Seta Nova</option>';
+            Nome_options_str  += '<option value="Monica da Silva-Beijo Doce_PA Barra do Cuanza">Monica da Silva-Beijo Doce_PA Barra do Cuanza</option>';
+            Nome_options_str  += '<option value="Mopic - Sociedade Comercial de Angola, Lda">Mopic - Sociedade Comercial de Angola, Lda</option>';
+            Nome_options_str  += '<option value="Moringa Sociedade Angolana Petróleo,Lda">Moringa Sociedade Angolana Petróleo,Lda</option>';
+            Nome_options_str  += '<option value="Mosvipo , Lda">Mosvipo , Lda</option>';
+            Nome_options_str  += '<option value="Mota -Engil Angola, SA">Mota -Engil Angola, SA</option>';
+            Nome_options_str  += '<option value="Museu Nacional de Antropologia">Museu Nacional de Antropologia</option>';
+            Nome_options_str  += '<option value="N.C.M.K, Lda -PAC Zango">N.C.M.K, Lda -PAC Zango</option>';
+            Nome_options_str  += '<option value="NBK, Com., Ind.e Representações-PA Barra do Cuanza">NBK, Com., Ind.e Representações-PA Barra do Cuanza</option>';
+            Nome_options_str  += '<option value="NDAD- Nova Distribuidora Alimentar, Lda">NDAD- Nova Distribuidora Alimentar, Lda</option>';
+            Nome_options_str  += '<option value="NKUEMBE- Comércio e Serviço (SU), Lda-PAC SOYO">NKUEMBE- Comércio e Serviço (SU), Lda-PAC SOYO</option>';
+            Nome_options_str  += '<option value="NOBLE GROUP, Lda">NOBLE GROUP, Lda</option>';
+            Nome_options_str  += '<option value="NOCEBO-Nova Companhia de Cervejas do Huambo,SA">NOCEBO-Nova Companhia de Cervejas do Huambo,SA</option>';
+            Nome_options_str  += '<option value="Naipe, Limitada">Naipe, Limitada</option>';
+            Nome_options_str  += '<option value="Nampak Bevcan Angola Lda">Nampak Bevcan Angola Lda</option>';
+            Nome_options_str  += '<option value="NandeServices, Lda">NandeServices, Lda</option>';
+            Nome_options_str  += '<option value="Nantong Holding Corporation, Lda">Nantong Holding Corporation, Lda</option>';
+            Nome_options_str  += '<option value="Ndjibudak dos Santos de Sousa-PAC Quipungo">Ndjibudak dos Santos de Sousa-PAC Quipungo</option>';
+            Nome_options_str  += '<option value="Newaco Grupo, SA">Newaco Grupo, SA</option>';
+            Nome_options_str  += '<option value="Nhama Vitala-Oil Gás e serviços LDA- PAC EYWA">Nhama Vitala-Oil Gás e serviços LDA- PAC EYWA</option>';
+            Nome_options_str  += '<option value="Nhama Vitala-Oil Gás e serviços LDA- PAC FERROVIA">Nhama Vitala-Oil Gás e serviços LDA- PAC FERROVIA</option>';
+            Nome_options_str  += '<option value="Nice South Atlantic, Lda">Nice South Atlantic, Lda</option>';
+            Nome_options_str  += '<option value="Nicon, Lda">Nicon, Lda</option>';
+            Nome_options_str  += '<option value="Nocal- Novas Empresas de Cervejas de Angola, SA">Nocal- Novas Empresas de Cervejas de Angola, SA</option>';
+            Nome_options_str  += '<option value="Nogueira & Filhos, Lda, PAC Conda">Nogueira & Filhos, Lda, PAC Conda</option>';
+            Nome_options_str  += '<option value="Noroeste Engenharia, Projectos e Fiscalização, Lda">Noroeste Engenharia, Projectos e Fiscalização, Lda</option>';
+            Nome_options_str  += '<option value="Nova Ambiental, Lda">Nova Ambiental, Lda</option>';
+            Nome_options_str  += '<option value="Novagrolider-Exploração Agropecuaria Lda">Novagrolider-Exploração Agropecuaria Lda</option>';
+            Nome_options_str  += '<option value="Nuviagro-Exploração e Comercialização Agrícola,Lda">Nuviagro-Exploração e Comercialização Agrícola,Lda</option>';
+            Nome_options_str  += '<option value="O Feliz Angola - Metalomecânica, S.A">O Feliz Angola - Metalomecânica, S.A</option>';
+            Nome_options_str  += '<option value="Oceantico-Industrial e Investimento, Lda">Oceantico-Industrial e Investimento, Lda</option>';
+            Nome_options_str  += '<option value="Omahooli, Lda -PAC Cuvelai">Omahooli, Lda -PAC Cuvelai</option>';
+            Nome_options_str  += '<option value="Omatapalo, Engenharia e Construção, SA">Omatapalo, Engenharia e Construção, SA</option>';
+            Nome_options_str  += '<option value="Orey Super - Transportes e Distribuição, Lda">Orey Super - Transportes e Distribuição, Lda</option>';
+            Nome_options_str  += '<option value="Orga Capricho, Lda - PAC 5 de Abril">Orga Capricho, Lda - PAC 5 de Abril</option>';
+            Nome_options_str  += '<option value="Organizações AACGL, Lda - PAC Zango">Organizações AACGL, Lda - PAC Zango</option>';
+            Nome_options_str  += '<option value="Organizações Celestino Nhati">Organizações Celestino Nhati</option>';
+            Nome_options_str  += '<option value="Organizações Flalouvaz (Nóque)">Organizações Flalouvaz (Nóque)</option>';
+            Nome_options_str  += '<option value="Organizações Gloriade, Lda">Organizações Gloriade, Lda</option>';
+            Nome_options_str  += '<option value="Organizações Mandinga Lenga, Lda">Organizações Mandinga Lenga, Lda</option>';
+            Nome_options_str  += '<option value="Organizações Santos Kunga">Organizações Santos Kunga</option>';
+            Nome_options_str  += '<option value="Organizações Tojai, Lda">Organizações Tojai, Lda</option>';
+            Nome_options_str  += '<option value="Oscorp Osvaldo B. Corporation- PAC Mutundo">Oscorp Osvaldo B. Corporation- PAC Mutundo</option>';
+            Nome_options_str  += '<option value="Osvaldo Rocha e Silva- PAC Chingo">Osvaldo Rocha e Silva- PAC Chingo</option>';
+            Nome_options_str  += '<option value="P & W Imóveis">P & W Imóveis</option>';
+            Nome_options_str  += '<option value="P.A ALCT LDA">P.A ALCT LDA</option>';
+            Nome_options_str  += '<option value="P.A ASC">P.A ASC</option>';
+            Nome_options_str  += '<option value="P.A. ALVALADE">P.A. ALVALADE</option>';
+            Nome_options_str  += '<option value="P.A. AUTOBRASIL - Cliente Indiferenciado">P.A. AUTOBRASIL - Cliente Indiferenciado</option>';
+            Nome_options_str  += '<option value="P.A. BAIRRO POPULAR">P.A. BAIRRO POPULAR</option>';
+            Nome_options_str  += '<option value="P.A. LUMEJE">P.A. LUMEJE</option>';
+            Nome_options_str  += '<option value="P.A. OÁSIS - Cliente Indiferenciado">P.A. OÁSIS - Cliente Indiferenciado</option>';
+            Nome_options_str  += '<option value="P.A. Quenguela Norte - Cliente Indiferenciado">P.A. Quenguela Norte - Cliente Indiferenciado</option>';
+            Nome_options_str  += '<option value="P.A. VIANA - Cliente Indiferenciado">P.A. VIANA - Cliente Indiferenciado</option>';
+            Nome_options_str  += '<option value="PA Bairro Popular ( Grupo Sogecom, Lda)">PA Bairro Popular ( Grupo Sogecom, Lda)</option>';
+            Nome_options_str  += '<option value="PA Bombeiros_Menongue">PA Bombeiros_Menongue</option>';
+            Nome_options_str  += '<option value="PA Calohombo">PA Calohombo</option>';
+            Nome_options_str  += '<option value="PA Maria Antónia da Silva Costa Lda">PA Maria Antónia da Silva Costa Lda</option>';
+            Nome_options_str  += '<option value="PAC Cedniro (SU)Lda (Clientes Directo)">PAC Cedniro (SU)Lda (Clientes Directo)</option>';
+            Nome_options_str  += '<option value="PEBRAMA, S.A">PEBRAMA, S.A</option>';
+            Nome_options_str  += '<option value="PGF, Limitada">PGF, Limitada</option>';
+            Nome_options_str  += '<option value="PLAS-Tek Angola, Lda">PLAS-Tek Angola, Lda</option>';
+            Nome_options_str  += '<option value="PS-Advanced-Industria, CO.P.DE.S.I. e Exportação">PS-Advanced-Industria, CO.P.DE.S.I. e Exportação</option>';
+            Nome_options_str  += '<option value="PTA - Águas, Tratam. Engar. Dist. Águas, Lda">PTA - Águas, Tratam. Engar. Dist. Águas, Lda</option>';
+            Nome_options_str  += '<option value="Pac Cabo Lombo-Maria Paulo Simão Comercial">Pac Cabo Lombo-Maria Paulo Simão Comercial</option>';
+            Nome_options_str  += '<option value="Pachus Com. de Paulina Tchokomessa R. Tchit (PAC)">Pachus Com. de Paulina Tchokomessa R. Tchit (PAC)</option>';
+            Nome_options_str  += '<option value="Pansian International Company, Lda">Pansian International Company, Lda</option>';
+            Nome_options_str  += '<option value="Paval, Lda - PAC Quicolo">Paval, Lda - PAC Quicolo</option>';
+            Nome_options_str  += '<option value="Pedro Kachambalele Tchissingui-PA Mapunda">Pedro Kachambalele Tchissingui-PA Mapunda</option>';
+            Nome_options_str  += '<option value="Pesca Fresca, Lda">Pesca Fresca, Lda</option>';
+            Nome_options_str  += '<option value="PetroAssist, Assistência Técnica (Angola), Lda">PetroAssist, Assistência Técnica (Angola), Lda</option>';
+            Nome_options_str  += '<option value="Petrotec-Angola,Assistência Técnica Ram.Petrol,Lda">Petrotec-Angola,Assistência Técnica Ram.Petrol,Lda</option>';
+            Nome_options_str  += '<option value="Pimpas Group, Lda - PAC Mercado">Pimpas Group, Lda - PAC Mercado</option>';
+            Nome_options_str  += '<option value="Pimpas Group, Lda-PAC Sector 6">Pimpas Group, Lda-PAC Sector 6</option>';
+            Nome_options_str  += '<option value="Plurijogos,Sarl">Plurijogos,Sarl</option>';
+            Nome_options_str  += '<option value="Poliobra-Construções Civis Limitada">Poliobra-Construções Civis Limitada</option>';
+            Nome_options_str  += '<option value="Posterede Angola (SU), SA">Posterede Angola (SU), SA</option>';
+            Nome_options_str  += '<option value="Pousada do Wembele, Lda">Pousada do Wembele, Lda</option>';
+            Nome_options_str  += '<option value="Pousada do Wembele, Lda-PAC Mercado 30">Pousada do Wembele, Lda-PAC Mercado 30</option>';
+            Nome_options_str  += '<option value="Prefangol-Prefabricados e Agregados de Angola, Lda">Prefangol-Prefabricados e Agregados de Angola, Lda</option>';
+            Nome_options_str  += '<option value="Princefarma, Lda">Princefarma, Lda</option>';
+            Nome_options_str  += '<option value="Probetão-Produto Pré- Fabricado de Betão">Probetão-Produto Pré- Fabricado de Betão</option>';
+            Nome_options_str  += '<option value="Purangol, Lda">Purangol, Lda</option>';
+            Nome_options_str  += '<option value="QG KONSTRUKTION GMBH -Surcusal em Angola">QG KONSTRUKTION GMBH -Surcusal em Angola</option>';
+            Nome_options_str  += '<option value="Querobras, Lda">Querobras, Lda</option>';
+            Nome_options_str  += '<option value="R&R, Promoção Imobilária, Lda">R&R, Promoção Imobilária, Lda</option>';
+            Nome_options_str  += '<option value="RAO-Engenharia, SA">RAO-Engenharia, SA</option>';
+            Nome_options_str  += '<option value="RECOLIX-Engenharia Ambiental, Lda">RECOLIX-Engenharia Ambiental, Lda</option>';
+            Nome_options_str  += '<option value="RELUVE - Comércio e Indústria, Lda">RELUVE - Comércio e Indústria, Lda</option>';
+            Nome_options_str  += '<option value="RODANG - Rochas Ornamentais de Angola, Lda">RODANG - Rochas Ornamentais de Angola, Lda</option>';
+            Nome_options_str  += '<option value="Radical Investmentes (Pty) Lda">Radical Investmentes (Pty) Lda</option>';
+            Nome_options_str  += '<option value="Rayan Investiment (Angola) Comércio e Indústria">Rayan Investiment (Angola) Comércio e Indústria</option>';
+            Nome_options_str  += '<option value="Refriango - Indústria e Comércio Geral, Lda.">Refriango - Indústria e Comércio Geral, Lda.</option>';
+            Nome_options_str  += '<option value="Refriango Huambo - Bebidas e Refrigerantes, Lda">Refriango Huambo - Bebidas e Refrigerantes, Lda</option>';
+            Nome_options_str  += '<option value="Representações Rota do Careca, Lda-PAC Bibala">Representações Rota do Careca, Lda-PAC Bibala</option>';
+            Nome_options_str  += '<option value="Representações Rota do Careca, Lda-PAC Cussesse">Representações Rota do Careca, Lda-PAC Cussesse</option>';
+            Nome_options_str  += '<option value="Reviva-Higiene e Saúde do Lar, Lda">Reviva-Higiene e Saúde do Lar, Lda</option>';
+            Nome_options_str  += '<option value="Rico - Longo CO.- Comércio Geral, Lda">Rico - Longo CO.- Comércio Geral, Lda</option>';
+            Nome_options_str  += '<option value="Rio Tondo- Hotelaria e Turismo,  Lda">Rio Tondo- Hotelaria e Turismo,  Lda</option>';
+            Nome_options_str  += '<option value="Rodangola, Lda - PA Regedoria">Rodangola, Lda - PA Regedoria</option>';
+            Nome_options_str  += '<option value="Rota Ambiental, S.A">Rota Ambiental, S.A</option>';
+            Nome_options_str  += '<option value="SEDE-Soc.de Estudos e D.Económico, LDA">SEDE-Soc.de Estudos e D.Económico, LDA</option>';
+            Nome_options_str  += '<option value="SIBERIAN, Lda - PAC Minhota">SIBERIAN, Lda - PAC Minhota</option>';
+            Nome_options_str  += '<option value="SIEP - Sociedade Imobiliária Edificio Presidente">SIEP - Sociedade Imobiliária Edificio Presidente</option>';
+            Nome_options_str  += '<option value="SLC - Serviço de Logistica e Cargas, S.A.">SLC - Serviço de Logistica e Cargas, S.A.</option>';
+            Nome_options_str  += '<option value="SOCIPESCA, Lda">SOCIPESCA, Lda</option>';
+            Nome_options_str  += '<option value="SOPROS-Soc. Angolana de Promoção de Shoppings, SA">SOPROS-Soc. Angolana de Promoção de Shoppings, SA</option>';
+            Nome_options_str  += '<option value="ST George- Comércio e Indíustria (SU) Lda">ST George- Comércio e Indíustria (SU) Lda</option>';
+            Nome_options_str  += '<option value="STAR ONE - Comércio Geral, Lda">STAR ONE - Comércio Geral, Lda</option>';
+            Nome_options_str  += '<option value="SU GUANG YONG- China ZHONG TAI Senda Grupo">SU GUANG YONG- China ZHONG TAI Senda Grupo</option>';
+            Nome_options_str  += '<option value="Sabs Steel Advenced Bulding´s Systems, Lda">Sabs Steel Advenced Bulding´s Systems, Lda</option>';
+            Nome_options_str  += '<option value="Saigas - Sociedade de Equip. e Enchimento Gás. Lda">Saigas - Sociedade de Equip. e Enchimento Gás. Lda</option>';
+            Nome_options_str  += '<option value="Saiva - Equipamentos e Serviços, Lda">Saiva - Equipamentos e Serviços, Lda</option>';
+            Nome_options_str  += '<option value="Salor, Lda - PAC Floresta">Salor, Lda - PAC Floresta</option>';
+            Nome_options_str  += '<option value="Saluc Gol Service Lda Pac Cacuso">Saluc Gol Service Lda Pac Cacuso</option>';
+            Nome_options_str  += '<option value="Santibraga - Prestação de Serviço, Lda">Santibraga - Prestação de Serviço, Lda</option>';
+            Nome_options_str  += '<option value="Sassusso & Filhos Limitada">Sassusso & Filhos Limitada</option>';
+            Nome_options_str  += '<option value="Score-Distribuição, Lda">Score-Distribuição, Lda</option>';
+            Nome_options_str  += '<option value="Sete Ramos, Lda-PA Calohombo">Sete Ramos, Lda-PA Calohombo</option>';
+            Nome_options_str  += '<option value="Shaolin- Construções Lda">Shaolin- Construções Lda</option>';
+            Nome_options_str  += '<option value="Shemifril">Shemifril</option>';
+            Nome_options_str  += '<option value="Shoprite Supermercados, Limitada">Shoprite Supermercados, Limitada</option>';
+            Nome_options_str  += '<option value="Sicasa- Sociedade Indústrial Lda">Sicasa- Sociedade Indústrial Lda</option>';
+            Nome_options_str  += '<option value="Sicie-Sociedade Comercial e Industrial, Limitada">Sicie-Sociedade Comercial e Industrial, Limitada</option>';
+            Nome_options_str  += '<option value="Sino-Ord-Parque Industrial">Sino-Ord-Parque Industrial</option>';
+            Nome_options_str  += '<option value="Sinohydro Corporation, Lda">Sinohydro Corporation, Lda</option>';
+            Nome_options_str  += '<option value="Sinohydro Corporation, Lda (Lunda Norte)">Sinohydro Corporation, Lda (Lunda Norte)</option>';
+            Nome_options_str  += '<option value="Sinohydro Corporation, Lda (M´banza- Congo)">Sinohydro Corporation, Lda (M´banza- Congo)</option>';
+            Nome_options_str  += '<option value="Sinotrans Angola, Lda">Sinotrans Angola, Lda</option>';
+            Nome_options_str  += '<option value="Soba-Sociedade de Bebidas de Angola, SARL">Soba-Sociedade de Bebidas de Angola, SARL</option>';
+            Nome_options_str  += '<option value="Sociedade Agrícola Alto Tombola Caconda Limitada">Sociedade Agrícola Alto Tombola Caconda Limitada</option>';
+            Nome_options_str  += '<option value="Sociedade Mineira do Furi Lda">Sociedade Mineira do Furi Lda</option>';
+            Nome_options_str  += '<option value="Sociedade Tchivangulula, Limitada">Sociedade Tchivangulula, Limitada</option>';
+            Nome_options_str  += '<option value="Socinger-Soc de Investimentos Gerais-Fvk Kikolo">Socinger-Soc de Investimentos Gerais-Fvk Kikolo</option>';
+            Nome_options_str  += '<option value="Sodiba-Sociedade de Dist. e Bebidas de Angola, Lda">Sodiba-Sociedade de Dist. e Bebidas de Angola, Lda</option>';
+            Nome_options_str  += '<option value="Soida- Industria de Derivados Asfalticos, Lda">Soida- Industria de Derivados Asfalticos, Lda</option>';
+            Nome_options_str  += '<option value="Sonit Internacional,Lda">Sonit Internacional,Lda</option>';
+            Nome_options_str  += '<option value="Stone Valley-EXxploração Mineira, Lda">Stone Valley-EXxploração Mineira, Lda</option>';
+            Nome_options_str  += '<option value="Street-Limpa, Limitada">Street-Limpa, Limitada</option>';
+            Nome_options_str  += '<option value="Suhaila,Lda - PAC Chongoroi">Suhaila,Lda - PAC Chongoroi</option>';
+            Nome_options_str  += '<option value="Sulroc Rochas do Sul - Comércio e Serviços, Lda">Sulroc Rochas do Sul - Comércio e Serviços, Lda</option>';
+            Nome_options_str  += '<option value="Sumol + Compal - Angola , SA">Sumol + Compal - Angola , SA</option>';
+            Nome_options_str  += '<option value="Supergesso-Indústria e Comércio, LDA">Supergesso-Indústria e Comércio, LDA</option>';
+            Nome_options_str  += '<option value="Superhello, Lda">Superhello, Lda</option>';
+            Nome_options_str  += '<option value="T.K.J. & Irmãos - Empreendimentos, Lda-PAC Chingo">T.K.J. & Irmãos - Empreendimentos, Lda-PAC Chingo</option>';
+            Nome_options_str  += '<option value="TCUL. U.E.E Transporte Colectivo Urbano">TCUL. U.E.E Transporte Colectivo Urbano</option>';
+            Nome_options_str  += '<option value="TDA-Comércio e Indústria, Limitada">TDA-Comércio e Indústria, Limitada</option>';
+            Nome_options_str  += '<option value="TELCABO 2, Lda, Surcusal em Angola">TELCABO 2, Lda, Surcusal em Angola</option>';
+            Nome_options_str  += '<option value="TIL SONS - PAC Tchissequeli">TIL SONS - PAC Tchissequeli</option>';
+            Nome_options_str  += '<option value="TRANS- Vindica Comercial, Lda">TRANS- Vindica Comercial, Lda</option>';
+            Nome_options_str  += '<option value="TRANSMAGO- Carga Geral Limitada">TRANSMAGO- Carga Geral Limitada</option>';
+            Nome_options_str  += '<option value="Tecnipig,Lda">Tecnipig,Lda</option>';
+            Nome_options_str  += '<option value="Teixeira Duarte-Engenharia e Construções, S.A.">Teixeira Duarte-Engenharia e Construções, S.A.</option>';
+            Nome_options_str  += '<option value="Telhabel - Construções Angola, S.A.">Telhabel - Construções Angola, S.A.</option>';
+            Nome_options_str  += '<option value="Teodoro Alho Inertes, SA">Teodoro Alho Inertes, SA</option>';
+            Nome_options_str  += '<option value="Terras Centro-Const. C. e Obras Públicas,Lda">Terras Centro-Const. C. e Obras Públicas,Lda</option>';
+            Nome_options_str  += '<option value="Tomás de Oliveira, Empreiteiros, S.A.">Tomás de Oliveira, Empreiteiros, S.A.</option>';
+            Nome_options_str  += '<option value="Tovan- Engenharia (SU), S.A.">Tovan- Engenharia (SU), S.A.</option>';
+            Nome_options_str  += '<option value="Transgrua-Transp. Repr. e Aluguer de Equip.Lda">Transgrua-Transp. Repr. e Aluguer de Equip.Lda</option>';
+            Nome_options_str  += '<option value="Transportes Edgar">Transportes Edgar</option>';
+            Nome_options_str  += '<option value="Trevotech Logística Lda">Trevotech Logística Lda</option>';
+            Nome_options_str  += '<option value="Trevotech-Representações, Comércio e Industria">Trevotech-Representações, Comércio e Industria</option>';
+            Nome_options_str  += '<option value="Trigger-Socied. de Invest, Lda -PA OÁSIS">Trigger-Socied. de Invest, Lda -PA OÁSIS</option>';
+            Nome_options_str  += '<option value="Trigger-Socied. de Invest, Lda -PA Quenguela Norte">Trigger-Socied. de Invest, Lda -PA Quenguela Norte</option>';
+            Nome_options_str  += '<option value="Tuka Trans, Lda">Tuka Trans, Lda</option>';
+            Nome_options_str  += '<option value="Turiagro Turismo e Agro Pecuaria, Lda">Turiagro Turismo e Agro Pecuaria, Lda</option>';
+            Nome_options_str  += '<option value="UBETAR- Engenharia e Construção, Limitada">UBETAR- Engenharia e Construção, Limitada</option>';
+            Nome_options_str  += '<option value="Unicarga, UEE">Unicarga, UEE</option>';
+            Nome_options_str  += '<option value="Unique - Beverages, S.A">Unique - Beverages, S.A</option>';
+            Nome_options_str  += '<option value="United Industries, Lda">United Industries, Lda</option>';
+            Nome_options_str  += '<option value="Urano, Lda">Urano, Lda</option>';
+            Nome_options_str  += '<option value="Urbanop Angola - Urbanizações e Obras Públicas,Lda">Urbanop Angola - Urbanizações e Obras Públicas,Lda</option>';
+            Nome_options_str  += '<option value="Urbipedras, Limitada">Urbipedras, Limitada</option>';
+            Nome_options_str  += '<option value="VIBAL-Investimentos, Lda">VIBAL-Investimentos, Lda</option>';
+            Nome_options_str  += '<option value="VP NGOL - Prestação de Serviços, Lda">VP NGOL - Prestação de Serviços, Lda</option>';
+            Nome_options_str  += '<option value="Vastness-Consultoria e Gestão - PA Muceque">Vastness-Consultoria e Gestão - PA Muceque</option>';
+            Nome_options_str  += '<option value="Vendap EF- Estrutura Metalica e Equipamentos Lda">Vendap EF- Estrutura Metalica e Equipamentos Lda</option>';
+            Nome_options_str  += '<option value="Vichilo-Com.e Prest.Serviço-GRANEL">Vichilo-Com.e Prest.Serviço-GRANEL</option>';
+            Nome_options_str  += '<option value="Vichilo-Com.e Prest.Serviço-PA Morro Bento">Vichilo-Com.e Prest.Serviço-PA Morro Bento</option>';
+            Nome_options_str  += '<option value="Vichilo-Prestação de serviço-PAC Boa Esperança">Vichilo-Prestação de serviço-PAC Boa Esperança</option>';
+            Nome_options_str  += '<option value="Vichilo-Prestação de serviço-PAC Conda">Vichilo-Prestação de serviço-PAC Conda</option>';
+            Nome_options_str  += '<option value="Vichilo-Prestação de serviço-PAC EBO">Vichilo-Prestação de serviço-PAC EBO</option>';
+            Nome_options_str  += '<option value="Vichilo-Prestação de serviço-PAC Regedoria">Vichilo-Prestação de serviço-PAC Regedoria</option>';
+            Nome_options_str  += '<option value="Vichilo-Prestação de serviço-PAC Seles">Vichilo-Prestação de serviço-PAC Seles</option>';
+            Nome_options_str  += '<option value="Victória Oriental- Ind. de Peixe e Crustáceos, Lda">Victória Oriental- Ind. de Peixe e Crustáceos, Lda</option>';
+            Nome_options_str  += '<option value="Vidrul-Vidreira de Angola S.A.">Vidrul-Vidreira de Angola S.A.</option>';
+            Nome_options_str  += '<option value="Vimar & Filhos, Lda">Vimar & Filhos, Lda</option>';
+            Nome_options_str  += '<option value="Viramos, Lda_ PAC Calombotão">Viramos, Lda_ PAC Calombotão</option>';
+            Nome_options_str  += '<option value="Vista Waste Management, Lda">Vista Waste Management, Lda</option>';
+            Nome_options_str  += '<option value="WM-Construções">WM-Construções</option>';
+            Nome_options_str  += '<option value="XNLC- Comércio a retalho  -PA Barra do Cuanza">XNLC- Comércio a retalho  -PA Barra do Cuanza</option>';
+            Nome_options_str  += '<option value="Xakimona Nunes Lopes da Costa -XNLC,PA Botomona">Xakimona Nunes Lopes da Costa -XNLC,PA Botomona</option>';
+            Nome_options_str  += '<option value="Xinhe Internacional - Comércio e Ind. (SU),Lda">Xinhe Internacional - Comércio e Ind. (SU),Lda</option>';
+            Nome_options_str  += '<option value="YIWEI-Internacional , Limitada">YIWEI-Internacional , Limitada</option>';
+            Nome_options_str  += '<option value="YQH - Comércio e Indústria, Lda">YQH - Comércio e Indústria, Lda</option>';
+            Nome_options_str  += '<option value="Ynova Trade, Lda">Ynova Trade, Lda</option>';
+            Nome_options_str  += '<option value="Z & L Limitada">Z & L Limitada</option>';
+            Nome_options_str  += '<option value="ZZA MARVILHOSA - Indústria Mineira, LDA">ZZA MARVILHOSA - Indústria Mineira, LDA</option>';
+            Nome_options_str  += '<option value="Zagope Angola-Construção e Engenharia, Sa(CETA)">Zagope Angola-Construção e Engenharia, Sa(CETA)</option>';
+            Nome_options_str  += '<option value="Zagope Angola-Construções e Engenharia, SA (PAD)">Zagope Angola-Construções e Engenharia, SA (PAD)</option>';
+            Nome_options_str  += '<option value="Zagope-Engenharia e Construções,SA.Sucursal-Angola">Zagope-Engenharia e Construções,SA.Sucursal-Angola</option>';
+            Nome_options_str  += '<option value="Zeepack Angola, Lda">Zeepack Angola, Lda</option>';
+            Nome_options_str  += '<option value="Zeferino Pedro Chipuia-PAC Camucuio">Zeferino Pedro Chipuia-PAC Camucuio</option>';
+            Nome_options_str  += '<option value="Zencorp Trading,Lda - PAC Regedoria">Zencorp Trading,Lda - PAC Regedoria</option>';
+            Nome_options_str  += '<option value="Zencorp Trading,Lda PA Oásis">Zencorp Trading,Lda PA Oásis</option>';
+            sel_Nome.innerHTML = Nome_options_str;
+            div_Nome.appendChild(sel_Nome);
+            var lab_Nome = document.createElement('div');
+            lab_Nome.innerHTML = 'Nome';
+            lab_Nome.className = 'filterlabel';
+            div_Nome.appendChild(lab_Nome);
+            var reset_Nome = document.createElement('div');
+            reset_Nome.innerHTML = 'clear filter';
+            reset_Nome.className = 'filterlabel';
+            reset_Nome.onclick = function() {
+                var options = document.getElementById("sel_Nome").options;
+                for (var i=0; i < options.length; i++) {
+                    options[i].selected = false;
+                }
+                filterFunc();
+            };
+            div_Nome.appendChild(reset_Nome);
+            document.getElementById("menu").appendChild(
+                document.createElement("div"));
+            var div_Vias = document.createElement('div');
+            div_Vias.id = "div_Vias";
+            div_Vias.className= "filterselect";
+            document.getElementById("menu").appendChild(div_Vias);
+            sel_Vias = document.createElement('select');
+            sel_Vias.multiple = true;
+            sel_Vias.size = 10;
+            sel_Vias.id = "sel_Vias";
+            var Vias_options_str = "<option value='' unselected></option>";
+            sel_Vias.onchange = function(){filterFunc()};
+            Vias_options_str  += '<option value="21 de Janeiro, Zona Verde">21 de Janeiro, Zona Verde</option>';
+            Vias_options_str  += '<option value="AV 4 de Fevereiro, Casa n. 117, Bairro Dak Doy">AV 4 de Fevereiro, Casa n. 117, Bairro Dak Doy</option>';
+            Vias_options_str  += '<option value="AV. Deolinda Rodrigues Lote A6 - Edifício Fermat">AV. Deolinda Rodrigues Lote A6 - Edifício Fermat</option>';
+            Vias_options_str  += '<option value="Alameda Manuel Van Dunem, Edif. Alameda 322, 2º A">Alameda Manuel Van Dunem, Edif. Alameda 322, 2º A</option>';
+            Vias_options_str  += '<option value="Aldeia Mineira de Tchicuatiti">Aldeia Mineira de Tchicuatiti</option>';
+            Vias_options_str  += '<option value="Antiga Estrada de Catete, Km 50, comuna de Mozozo">Antiga Estrada de Catete, Km 50, comuna de Mozozo</option>';
+            Vias_options_str  += '<option value="Auto Estrada Benfica-Viana">Auto Estrada Benfica-Viana</option>';
+            Vias_options_str  += '<option value="Av 21 de Janeiro, Bairro Huambo S/Nº">Av 21 de Janeiro, Bairro Huambo S/Nº</option>';
+            Vias_options_str  += '<option value="Av Mortala Mohamed- Bairro da Ingombota">Av Mortala Mohamed- Bairro da Ingombota</option>';
+            Vias_options_str  += '<option value="Av. 21 de Janeiro Bº Morro Bento (Prox. Banco BIC)">Av. 21 de Janeiro Bº Morro Bento (Prox. Banco BIC)</option>';
+            Vias_options_str  += '<option value="Av. 4 de Fevereiro, N.º 12. 2.º Andar Esquerdo">Av. 4 de Fevereiro, N.º 12. 2.º Andar Esquerdo</option>';
+            Vias_options_str  += '<option value="Av. 4ª de Fev, Ed. nº 14, 2ª Aptº 19">Av. 4ª de Fev, Ed. nº 14, 2ª Aptº 19</option>';
+            Vias_options_str  += '<option value="Av. Comandante Gika">Av. Comandante Gika</option>';
+            Vias_options_str  += '<option value="Av. Comandante Gika - Bairro Alvalade, Nº 150">Av. Comandante Gika - Bairro Alvalade, Nº 150</option>';
+            Vias_options_str  += '<option value="Av. Comandante Valódia N.º 147, 1.º Direito">Av. Comandante Valódia N.º 147, 1.º Direito</option>';
+            Vias_options_str  += '<option value="Av. Comandante Valódia nº 236, 2º Andar">Av. Comandante Valódia nº 236, 2º Andar</option>';
+            Vias_options_str  += '<option value="Av. Dr Agostinho Neto, Benguela">Av. Dr Agostinho Neto, Benguela</option>';
+            Vias_options_str  += '<option value="Av. Hoji Ya Henda, nº 65,5º-F-Bairro Valodia">Av. Hoji Ya Henda, nº 65,5º-F-Bairro Valodia</option>';
+            Vias_options_str  += '<option value="Av. Lenine, Nº 32/34 Maculusso">Av. Lenine, Nº 32/34 Maculusso</option>';
+            Vias_options_str  += '<option value="Av. Marien N&apos;guabi nº118, 6º 601/602">Av. Marien N&apos;guabi nº118, 6º 601/602</option>';
+            Vias_options_str  += '<option value="Av. Murtalla Mohamed, Ilha do Cabo">Av. Murtalla Mohamed, Ilha do Cabo</option>';
+            Vias_options_str  += '<option value="Av. Norton de Matos, n.º 54">Av. Norton de Matos, n.º 54</option>';
+            Vias_options_str  += '<option value="Av. Pedro de Castro Van - Dunem Loy">Av. Pedro de Castro Van - Dunem Loy</option>';
+            Vias_options_str  += '<option value="Av. Pedro de Castro Vand-Dúnem "Loy"">Av. Pedro de Castro Vand-Dúnem "Loy"</option>';
+            Vias_options_str  += '<option value="Av. Talatona, Condomínio Horizonte Sul, Casa B-6">Av. Talatona, Condomínio Horizonte Sul, Casa B-6</option>';
+            Vias_options_str  += '<option value="Av.Pedro de Castro Van-Dúnem Loy,Bairro M. Bento">Av.Pedro de Castro Van-Dúnem Loy,Bairro M. Bento</option>';
+            Vias_options_str  += '<option value="AvDr Agostinho Neto, Benguela">AvDr Agostinho Neto, Benguela</option>';
+            Vias_options_str  += '<option value="Avenida  Dr.António Agostinho Neto S/ Nº">Avenida  Dr.António Agostinho Neto S/ Nº</option>';
+            Vias_options_str  += '<option value="Avenida 21 de Janeiro, Rua C, Casa nº 10">Avenida 21 de Janeiro, Rua C, Casa nº 10</option>';
+            Vias_options_str  += '<option value="Avenida 4 de Fevereiro Nº 532/53">Avenida 4 de Fevereiro Nº 532/53</option>';
+            Vias_options_str  += '<option value="Avenida 4 de Fevereiro, N.º 59/60">Avenida 4 de Fevereiro, N.º 59/60</option>';
+            Vias_options_str  += '<option value="Avenida Comandante Gika, Travessa Ho-Chi-Minh">Avenida Comandante Gika, Travessa Ho-Chi-Minh</option>';
+            Vias_options_str  += '<option value="Avenida Deolinda Rodrigues">Avenida Deolinda Rodrigues</option>';
+            Vias_options_str  += '<option value="Avenida Deolinda Rodrigues Km 5,5">Avenida Deolinda Rodrigues Km 5,5</option>';
+            Vias_options_str  += '<option value="Avenida Deolinda Rodrigues/Rua Amílcar Cabral,">Avenida Deolinda Rodrigues/Rua Amílcar Cabral,</option>';
+            Vias_options_str  += '<option value="Avenida Dr. Agostinho Neto">Avenida Dr. Agostinho Neto</option>';
+            Vias_options_str  += '<option value="Avenida Fidel de Castro RUZ-Bairro Kikuxi">Avenida Fidel de Castro RUZ-Bairro Kikuxi</option>';
+            Vias_options_str  += '<option value="Avenida Hoji Ya Henda n.º112 2.º Andar Esq.Zona 11">Avenida Hoji Ya Henda n.º112 2.º Andar Esq.Zona 11</option>';
+            Vias_options_str  += '<option value="Avenida Hoji-Ya-Henda, bairro Cmdte Valódia n.º47">Avenida Hoji-Ya-Henda, bairro Cmdte Valódia n.º47</option>';
+            Vias_options_str  += '<option value="Avenida José Maria Antunes-Bº Maculusso nº 24-25">Avenida José Maria Antunes-Bº Maculusso nº 24-25</option>';
+            Vias_options_str  += '<option value="Avenida Lénine, Nº 86/A">Avenida Lénine, Nº 86/A</option>';
+            Vias_options_str  += '<option value="Avenida Pedro de Castro Van-Dúnem Loy">Avenida Pedro de Castro Van-Dúnem Loy</option>';
+            Vias_options_str  += '<option value="Avenida Pedro de CastroVan-dunem Loy nº 4">Avenida Pedro de CastroVan-dunem Loy nº 4</option>';
+            Vias_options_str  += '<option value="Avenida Talatona, S/Nº, Belas Business Park II">Avenida Talatona, S/Nº, Belas Business Park II</option>';
+            Vias_options_str  += '<option value="Avenida da Independência, Rua da Alfândega nº150">Avenida da Independência, Rua da Alfândega nº150</option>';
+            Vias_options_str  += '<option value="Avenida do PIV, Zona Industrial de Viana">Avenida do PIV, Zona Industrial de Viana</option>';
+            Vias_options_str  += '<option value="Avenida dr. Agostinho Neto S/N">Avenida dr. Agostinho Neto S/N</option>';
+            Vias_options_str  += '<option value="Bailundo -Luvemba">Bailundo -Luvemba</option>';
+            Vias_options_str  += '<option value="Bairro 11 de Novembro">Bairro 11 de Novembro</option>';
+            Vias_options_str  += '<option value="Bairro 14 de Abril">Bairro 14 de Abril</option>';
+            Vias_options_str  += '<option value="Bairro 1º de Maio Rua Uneka Terreno de Matcchidi">Bairro 1º de Maio Rua Uneka Terreno de Matcchidi</option>';
+            Vias_options_str  += '<option value="Bairro 1º de Maio- Casa s/nº">Bairro 1º de Maio- Casa s/nº</option>';
+            Vias_options_str  += '<option value="Bairro 4 de Abril- Zona A">Bairro 4 de Abril- Zona A</option>';
+            Vias_options_str  += '<option value="Bairro Alvalade, Rua Emílio Mbimbi, Nº1 R/C">Bairro Alvalade, Rua Emílio Mbimbi, Nº1 R/C</option>';
+            Vias_options_str  += '<option value="Bairro Azul/ Rua Americo Julio de Carvalho">Bairro Azul/ Rua Americo Julio de Carvalho</option>';
+            Vias_options_str  += '<option value="Bairro Benfica , Rua Benvindo S/N">Bairro Benfica , Rua Benvindo S/N</option>';
+            Vias_options_str  += '<option value="Bairro Benfica casa s/n">Bairro Benfica casa s/n</option>';
+            Vias_options_str  += '<option value="Bairro Benfica,Rua 9, Casa S/Nº, Zona Verde">Bairro Benfica,Rua 9, Casa S/Nº, Zona Verde</option>';
+            Vias_options_str  += '<option value="Bairro Boa Esperança, Rua 6, Casa nº 56">Bairro Boa Esperança, Rua 6, Casa nº 56</option>';
+            Vias_options_str  += '<option value="Bairro Cahululu">Bairro Cahululu</option>';
+            Vias_options_str  += '<option value="Bairro Calemba, Rua S/Nº">Bairro Calemba, Rua S/Nº</option>';
+            Vias_options_str  += '<option value="Bairro Calombotão, Zona B, Casa S/Nº">Bairro Calombotão, Zona B, Casa S/Nº</option>';
+            Vias_options_str  += '<option value="Bairro Calundo, S/Nº">Bairro Calundo, S/Nº</option>';
+            Vias_options_str  += '<option value="Bairro Cangambo Rua Campus Universitario">Bairro Cangambo Rua Campus Universitario</option>';
+            Vias_options_str  += '<option value="Bairro Capalanca Rua da Probetão S/N">Bairro Capalanca Rua da Probetão S/N</option>';
+            Vias_options_str  += '<option value="Bairro Capalanca, Rua Brigada, Capa 16">Bairro Capalanca, Rua Brigada, Capa 16</option>';
+            Vias_options_str  += '<option value="Bairro Casa Verde -Rua Comandate Cow Boy">Bairro Casa Verde -Rua Comandate Cow Boy</option>';
+            Vias_options_str  += '<option value="Bairro Casa Verde Zona 6, Lubango">Bairro Casa Verde Zona 6, Lubango</option>';
+            Vias_options_str  += '<option value="Bairro Central da sede Municipal de Belize">Bairro Central da sede Municipal de Belize</option>';
+            Vias_options_str  += '<option value="Bairro Chiva- Zona Industrial">Bairro Chiva- Zona Industrial</option>';
+            Vias_options_str  += '<option value="Bairro Comandante Cowboy, Zona 6">Bairro Comandante Cowboy, Zona 6</option>';
+            Vias_options_str  += '<option value="Bairro Dr. Agostinho Neto">Bairro Dr. Agostinho Neto</option>';
+            Vias_options_str  += '<option value="Bairro Dr. António Agostinho Neto">Bairro Dr. António Agostinho Neto</option>';
+            Vias_options_str  += '<option value="Bairro Funda ( Próximo ao mercado do Panguila)">Bairro Funda ( Próximo ao mercado do Panguila)</option>';
+            Vias_options_str  += '<option value="Bairro Futungo, Avenida 1º de Maio">Bairro Futungo, Avenida 1º de Maio</option>';
+            Vias_options_str  += '<option value="Bairro Futungo, Casa S/N">Bairro Futungo, Casa S/N</option>';
+            Vias_options_str  += '<option value="Bairro Futungo, Casa S/N, Rua 44">Bairro Futungo, Casa S/N, Rua 44</option>';
+            Vias_options_str  += '<option value="Bairro Futungo, Casa s/n">Bairro Futungo, Casa s/n</option>';
+            Vias_options_str  += '<option value="Bairro Hoji Ya Henda, Rua Ngola Kiluange nº SP">Bairro Hoji Ya Henda, Rua Ngola Kiluange nº SP</option>';
+            Vias_options_str  += '<option value="Bairro Incutal, Rua campo de Ourique, casa nº307">Bairro Incutal, Rua campo de Ourique, casa nº307</option>';
+            Vias_options_str  += '<option value="Bairro Ingombota, Rua Rainha Jinga , nº 212">Bairro Ingombota, Rua Rainha Jinga , nº 212</option>';
+            Vias_options_str  += '<option value="Bairro KM 40">Bairro KM 40</option>';
+            Vias_options_str  += '<option value="Bairro Kibabo">Bairro Kibabo</option>';
+            Vias_options_str  += '<option value="Bairro Kikuxi, na Zona do Kikuxi, S/Nº">Bairro Kikuxi, na Zona do Kikuxi, S/Nº</option>';
+            Vias_options_str  += '<option value="Bairro Kinji Piri, Estrada Nacional 100">Bairro Kinji Piri, Estrada Nacional 100</option>';
+            Vias_options_str  += '<option value="Bairro Kukuxi, Casa S/Nº , Zona 10">Bairro Kukuxi, Casa S/Nº , Zona 10</option>';
+            Vias_options_str  += '<option value="Bairro Lalula">Bairro Lalula</option>';
+            Vias_options_str  += '<option value="Bairro Maculusso, AV.cmdt. kwenha, n.º 68">Bairro Maculusso, AV.cmdt. kwenha, n.º 68</option>';
+            Vias_options_str  += '<option value="Bairro Maculusso, Rua Martin Luther King, N.º2">Bairro Maculusso, Rua Martin Luther King, N.º2</option>';
+            Vias_options_str  += '<option value="Bairro Mulevo (dep Estadio 11 Novembro)">Bairro Mulevo (dep Estadio 11 Novembro)</option>';
+            Vias_options_str  += '<option value="Bairro Mutundo">Bairro Mutundo</option>';
+            Vias_options_str  += '<option value="Bairro Naipalala, Casa s/ N">Bairro Naipalala, Casa s/ N</option>';
+            Vias_options_str  += '<option value="Bairro Nambambe, Zona D">Bairro Nambambe, Zona D</option>';
+            Vias_options_str  += '<option value="Bairro Nambambi">Bairro Nambambi</option>';
+            Vias_options_str  += '<option value="Bairro Neves Bendinha, Rua Machado de Castro nº 15">Bairro Neves Bendinha, Rua Machado de Castro nº 15</option>';
+            Vias_options_str  += '<option value="Bairro Nkungu a Yangela">Bairro Nkungu a Yangela</option>';
+            Vias_options_str  += '<option value="Bairro Nova Urbanização 17 de Setembro, S/N">Bairro Nova Urbanização 17 de Setembro, S/N</option>';
+            Vias_options_str  += '<option value="Bairro Palanca">Bairro Palanca</option>';
+            Vias_options_str  += '<option value="Bairro Palanca, Rua Dom Eduardo André Muaca">Bairro Palanca, Rua Dom Eduardo André Muaca</option>';
+            Vias_options_str  += '<option value="Bairro Panguila">Bairro Panguila</option>';
+            Vias_options_str  += '<option value="Bairro Rocha Pinto, Rua da Gamek a Direita n.º H65">Bairro Rocha Pinto, Rua da Gamek a Direita n.º H65</option>';
+            Vias_options_str  += '<option value="Bairro Saidy Mingas">Bairro Saidy Mingas</option>';
+            Vias_options_str  += '<option value="Bairro Saidy Mingas II, S/N">Bairro Saidy Mingas II, S/N</option>';
+            Vias_options_str  += '<option value="Bairro Saidy Mingas, Rua S/Nº">Bairro Saidy Mingas, Rua S/Nº</option>';
+            Vias_options_str  += '<option value="Bairro Simulambuco">Bairro Simulambuco</option>';
+            Vias_options_str  += '<option value="Bairro São José Canjaia">Bairro São José Canjaia</option>';
+            Vias_options_str  += '<option value="Bairro São João">Bairro São João</option>';
+            Vias_options_str  += '<option value="Bairro Talatona, Rua C3 S/Nº, ZONA 3">Bairro Talatona, Rua C3 S/Nº, ZONA 3</option>';
+            Vias_options_str  += '<option value="Bairro Talatona, Rua Via S4 Quarteirão Q6, nº84">Bairro Talatona, Rua Via S4 Quarteirão Q6, nº84</option>';
+            Vias_options_str  += '<option value="Bairro Talatona, Rua do MAT">Bairro Talatona, Rua do MAT</option>';
+            Vias_options_str  += '<option value="Bairro Tari">Bairro Tari</option>';
+            Vias_options_str  += '<option value="Bairro Tchioco">Bairro Tchioco</option>';
+            Vias_options_str  += '<option value="Bairro Tchioco Zona industrial II">Bairro Tchioco Zona industrial II</option>';
+            Vias_options_str  += '<option value="Bairro Vila Alice, Rua António Feliciano">Bairro Vila Alice, Rua António Feliciano</option>';
+            Vias_options_str  += '<option value="Bairro Vila Flor, Rua da 5ª Avenida, Zona 19">Bairro Vila Flor, Rua da 5ª Avenida, Zona 19</option>';
+            Vias_options_str  += '<option value="Bairro Vila Nova">Bairro Vila Nova</option>';
+            Vias_options_str  += '<option value="Bairro da Boavista, Rua 6, Zona 7, Dentro da Sonil">Bairro da Boavista, Rua 6, Zona 7, Dentro da Sonil</option>';
+            Vias_options_str  += '<option value="Bairro da Calumba">Bairro da Calumba</option>';
+            Vias_options_str  += '<option value="Bairro da Corimba, Rua da Samba, Casa nº 207-A,">Bairro da Corimba, Rua da Samba, Casa nº 207-A,</option>';
+            Vias_options_str  += '<option value="Bairro da Ingombota, Rua Cmdte Kwenha 74/76">Bairro da Ingombota, Rua Cmdte Kwenha 74/76</option>';
+            Vias_options_str  += '<option value="Bairro da Ingombota, Rua Major Kannhangulo">Bairro da Ingombota, Rua Major Kannhangulo</option>';
+            Vias_options_str  += '<option value="Bairro da Ingombotas, Rua major Kanhangulo">Bairro da Ingombotas, Rua major Kanhangulo</option>';
+            Vias_options_str  += '<option value="Bairro da Kamboyeira">Bairro da Kamboyeira</option>';
+            Vias_options_str  += '<option value="Bairro da Lalula">Bairro da Lalula</option>';
+            Vias_options_str  += '<option value="Bairro da Maianga nº 1007">Bairro da Maianga nº 1007</option>';
+            Vias_options_str  += '<option value="Bairro da Maianga, Rua Fernando Sousa">Bairro da Maianga, Rua Fernando Sousa</option>';
+            Vias_options_str  += '<option value="Bairro da Mapunda">Bairro da Mapunda</option>';
+            Vias_options_str  += '<option value="Bairro da Mapunda Casa s/nº">Bairro da Mapunda Casa s/nº</option>';
+            Vias_options_str  += '<option value="Bairro da Mapunda Nº75, Zona 15 Casa s/nº">Bairro da Mapunda Nº75, Zona 15 Casa s/nº</option>';
+            Vias_options_str  += '<option value="Bairro da Mapunda Zona 3">Bairro da Mapunda Zona 3</option>';
+            Vias_options_str  += '<option value="Bairro da Mapunda, Casa s/nº">Bairro da Mapunda, Casa s/nº</option>';
+            Vias_options_str  += '<option value="Bairro da Mapunda, EN 280-5, Km 4">Bairro da Mapunda, EN 280-5, Km 4</option>';
+            Vias_options_str  += '<option value="Bairro da Mapunda, Zona 15">Bairro da Mapunda, Zona 15</option>';
+            Vias_options_str  += '<option value="Bairro da Minhota, Rua Monsenhor Kelling n.º 241">Bairro da Minhota, Rua Monsenhor Kelling n.º 241</option>';
+            Vias_options_str  += '<option value="Bairro da Mitcha">Bairro da Mitcha</option>';
+            Vias_options_str  += '<option value="Bairro da Povoação, Zona 3, Comuna de Bom Jesus">Bairro da Povoação, Zona 3, Comuna de Bom Jesus</option>';
+            Vias_options_str  += '<option value="Bairro da calumba">Bairro da calumba</option>';
+            Vias_options_str  += '<option value="Bairro das Ingombotas, Rua Cdte. Kwenha 74/76">Bairro das Ingombotas, Rua Cdte. Kwenha 74/76</option>';
+            Vias_options_str  += '<option value="Bairro de Santa Iria Zona A Casa S/n">Bairro de Santa Iria Zona A Casa S/n</option>';
+            Vias_options_str  += '<option value="Bairro do BITA - SUL Mukulangola Rua Miala">Bairro do BITA - SUL Mukulangola Rua Miala</option>';
+            Vias_options_str  += '<option value="Bairro do Benfica, sector Talatona, Voa AL5,S.N.">Bairro do Benfica, sector Talatona, Voa AL5,S.N.</option>';
+            Vias_options_str  += '<option value="Bairro do Chingo, Zona 4, Município do Sumbe">Bairro do Chingo, Zona 4, Município do Sumbe</option>';
+            Vias_options_str  += '<option value="Bairro do Mutundo">Bairro do Mutundo</option>';
+            Vias_options_str  += '<option value="Bairro do Pacavira, Caope A S/N Viana">Bairro do Pacavira, Caope A S/N Viana</option>';
+            Vias_options_str  += '<option value="Bairro do São João, n.º S/N Rua S/N">Bairro do São João, n.º S/N Rua S/N</option>';
+            Vias_options_str  += '<option value="Bairro do Tari Casa s/n">Bairro do Tari Casa s/n</option>';
+            Vias_options_str  += '<option value="Bairro do Tchioco-Zona Industrial II">Bairro do Tchioco-Zona Industrial II</option>';
+            Vias_options_str  += '<option value="Baía Farta">Baía Farta</option>';
+            Vias_options_str  += '<option value="Baía Farta, Zona do Calueque">Baía Farta, Zona do Calueque</option>';
+            Vias_options_str  += '<option value="Benguela">Benguela</option>';
+            Vias_options_str  += '<option value="Bº Cassequel do Buraco, Rua 55, Casa nº64-A,">Bº Cassequel do Buraco, Rua 55, Casa nº64-A,</option>';
+            Vias_options_str  += '<option value="Bº Cruzeiro, Rua Marechal Bras Tito nº 35/37">Bº Cruzeiro, Rua Marechal Bras Tito nº 35/37</option>';
+            Vias_options_str  += '<option value="Bº Kikuxi">Bº Kikuxi</option>';
+            Vias_options_str  += '<option value="Caconda">Caconda</option>';
+            Vias_options_str  += '<option value="Cacuaco, Casa nº1 Bairro Kifangondo">Cacuaco, Casa nº1 Bairro Kifangondo</option>';
+            Vias_options_str  += '<option value="Casa S/N Bairro Cdte Valódia">Casa S/N Bairro Cdte Valódia</option>';
+            Vias_options_str  += '<option value="Casa S/Nº EN 230 Km 30, Musseque Baia">Casa S/Nº EN 230 Km 30, Musseque Baia</option>';
+            Vias_options_str  += '<option value="Casa s/n Bairro Zona C">Casa s/n Bairro Zona C</option>';
+            Vias_options_str  += '<option value="Casa s/n.º Zona C">Casa s/n.º Zona C</option>';
+            Vias_options_str  += '<option value="Centralidade do Kilamba">Centralidade do Kilamba</option>';
+            Vias_options_str  += '<option value="Centralidade do Sequele Bloco 5B 2ºandar n.º 202">Centralidade do Sequele Bloco 5B 2ºandar n.º 202</option>';
+            Vias_options_str  += '<option value="Cidade de Benguela">Cidade de Benguela</option>';
+            Vias_options_str  += '<option value="Comercial Casa s/ nº">Comercial Casa s/ nº</option>';
+            Vias_options_str  += '<option value="Comuna Cassoneca, Município de Icolo e Bengo">Comuna Cassoneca, Município de Icolo e Bengo</option>';
+            Vias_options_str  += '<option value="Comuna do Bom Jesus Zona 3">Comuna do Bom Jesus Zona 3</option>';
+            Vias_options_str  += '<option value="Comuna do Palanca">Comuna do Palanca</option>';
+            Vias_options_str  += '<option value="Condominio Flores do Talatona">Condominio Flores do Talatona</option>';
+            Vias_options_str  += '<option value="Condomínio Belas Business Park,Torre Benguela">Condomínio Belas Business Park,Torre Benguela</option>';
+            Vias_options_str  += '<option value="Cuando Cubango">Cuando Cubango</option>';
+            Vias_options_str  += '<option value="Cunene, Município da Cuanhama">Cunene, Município da Cuanhama</option>';
+            Vias_options_str  += '<option value="Distrito Urbano das Ingombotas, Rua Almeida Manuel">Distrito Urbano das Ingombotas, Rua Almeida Manuel</option>';
+            Vias_options_str  += '<option value="Distrito Urbano de Catete KM 44 Casa s/n">Distrito Urbano de Catete KM 44 Casa s/n</option>';
+            Vias_options_str  += '<option value="Distrito Urbano de Viana">Distrito Urbano de Viana</option>';
+            Vias_options_str  += '<option value="Distrito de Cabolombo">Distrito de Cabolombo</option>';
+            Vias_options_str  += '<option value="Distrito do Rangel- Bairro Nelito Soares">Distrito do Rangel- Bairro Nelito Soares</option>';
+            Vias_options_str  += '<option value="Dustrito Urbano da Baia, Bairro Tandy, Rua 25,">Dustrito Urbano da Baia, Bairro Tandy, Rua 25,</option>';
+            Vias_options_str  += '<option value="EN 100 Bairro Panguila Velho">EN 100 Bairro Panguila Velho</option>';
+            Vias_options_str  += '<option value="EN 230">EN 230</option>';
+            Vias_options_str  += '<option value="EN 230 Bairro do Palanca">EN 230 Bairro do Palanca</option>';
+            Vias_options_str  += '<option value="EN Benguela-Baía Farta">EN Benguela-Baía Farta</option>';
+            Vias_options_str  += '<option value="Edificio Banco BIC, Bairro Talotona">Edificio Banco BIC, Bairro Talotona</option>';
+            Vias_options_str  += '<option value="Edificio Presidente, Largo 17 de Setembro n.º3">Edificio Presidente, Largo 17 de Setembro n.º3</option>';
+            Vias_options_str  += '<option value="Edifício Mota-Engil Angola, Rua Joaquim">Edifício Mota-Engil Angola, Rua Joaquim</option>';
+            Vias_options_str  += '<option value="Estaleiro Central EN230 KM 44 n.º 1 Loteamento AC">Estaleiro Central EN230 KM 44 n.º 1 Loteamento AC</option>';
+            Vias_options_str  += '<option value="Estrada Direita do Zango , Polo Industrial Viana">Estrada Direita do Zango , Polo Industrial Viana</option>';
+            Vias_options_str  += '<option value="Estrada Kikuxi, S//Nº">Estrada Kikuxi, S//Nº</option>';
+            Vias_options_str  += '<option value="Estrada Nacional 120 ( No Centro do Huambo) S/Nº">Estrada Nacional 120 ( No Centro do Huambo) S/Nº</option>';
+            Vias_options_str  += '<option value="Estrada Nacional 230 KM 47">Estrada Nacional 230 KM 47</option>';
+            Vias_options_str  += '<option value="Estrada Nacional Km13">Estrada Nacional Km13</option>';
+            Vias_options_str  += '<option value="Estrada Nova Vida, Lote PO29, Estrada Nova Vida">Estrada Nova Vida, Lote PO29, Estrada Nova Vida</option>';
+            Vias_options_str  += '<option value="Estrada Principal de Luaca , Nº  R/C">Estrada Principal de Luaca , Nº  R/C</option>';
+            Vias_options_str  += '<option value="Estrada da Mapunda, CP 1233">Estrada da Mapunda, CP 1233</option>';
+            Vias_options_str  += '<option value="Estrada de Cacuaco nº 288 -CP 2163">Estrada de Cacuaco nº 288 -CP 2163</option>';
+            Vias_options_str  += '<option value="Estrada de Calumbo n.º S/N">Estrada de Calumbo n.º S/N</option>';
+            Vias_options_str  += '<option value="Estrada de Catete Campo INE-Marista">Estrada de Catete Campo INE-Marista</option>';
+            Vias_options_str  += '<option value="Estrada de Catete KM 20">Estrada de Catete KM 20</option>';
+            Vias_options_str  += '<option value="Estrada de Catete KM 23, Casa S/Nº">Estrada de Catete KM 23, Casa S/Nº</option>';
+            Vias_options_str  += '<option value="Estrada de Catete KM 26 Polo Industrial de Viana">Estrada de Catete KM 26 Polo Industrial de Viana</option>';
+            Vias_options_str  += '<option value="Estrada de Catete Km 27 Bairro de Viana">Estrada de Catete Km 27 Bairro de Viana</option>';
+            Vias_options_str  += '<option value="Estrada de Catete, Bom Jesus Km44 S/N">Estrada de Catete, Bom Jesus Km44 S/N</option>';
+            Vias_options_str  += '<option value="Estrada de Catete, Km 44">Estrada de Catete, Km 44</option>';
+            Vias_options_str  += '<option value="Estrada de Catete, PIV KM 25">Estrada de Catete, PIV KM 25</option>';
+            Vias_options_str  += '<option value="Estrada de Viana, Km 13, Viana">Estrada de Viana, Km 13, Viana</option>';
+            Vias_options_str  += '<option value="Estrada de catete - Bairro KM 35">Estrada de catete - Bairro KM 35</option>';
+            Vias_options_str  += '<option value="Estrada direita de Cacuaco, Km , Rua S/N,">Estrada direita de Cacuaco, Km , Rua S/N,</option>';
+            Vias_options_str  += '<option value="Estrada direita de calumbo - Viana">Estrada direita de calumbo - Viana</option>';
+            Vias_options_str  += '<option value="Estrada do Cacuaco; km 3,5">Estrada do Cacuaco; km 3,5</option>';
+            Vias_options_str  += '<option value="Estrada do Calumbo, S/Nº">Estrada do Calumbo, S/Nº</option>';
+            Vias_options_str  += '<option value="Estrada do Futungo, Sector Talatona">Estrada do Futungo, Sector Talatona</option>';
+            Vias_options_str  += '<option value="Estrada do Kikuxi, S/N">Estrada do Kikuxi, S/N</option>';
+            Vias_options_str  += '<option value="Estrada do Kuito/ Huambo, Bairro Kuquema Km 14l">Estrada do Kuito/ Huambo, Bairro Kuquema Km 14l</option>';
+            Vias_options_str  += '<option value="Estrada do Menongue Cutato KM2">Estrada do Menongue Cutato KM2</option>';
+            Vias_options_str  += '<option value="Estrada do Mercado da Pecuária, Vale do Cavaco">Estrada do Mercado da Pecuária, Vale do Cavaco</option>';
+            Vias_options_str  += '<option value="Estrada nova da Camama, B.º KM 14-A N.º S/N">Estrada nova da Camama, B.º KM 14-A N.º S/N</option>';
+            Vias_options_str  += '<option value="Estrada so Calumbo, Viana Park-Viana">Estrada so Calumbo, Viana Park-Viana</option>';
+            Vias_options_str  += '<option value="Estrado do Kikuxi S/N-Auto Estrada">Estrado do Kikuxi S/N-Auto Estrada</option>';
+            Vias_options_str  += '<option value="Fabrica da Mitam">Fabrica da Mitam</option>';
+            Vias_options_str  += '<option value="Funda, Musseque Sekele, Rua Auto Estrada">Funda, Musseque Sekele, Rua Auto Estrada</option>';
+            Vias_options_str  += '<option value="GESTEFLORA, Lda. - PA Muceque">GESTEFLORA, Lda. - PA Muceque</option>';
+            Vias_options_str  += '<option value="Icolo e Bengo Casa S/N Zona 3">Icolo e Bengo Casa S/N Zona 3</option>';
+            Vias_options_str  += '<option value="Ilha de Luanda">Ilha de Luanda</option>';
+            Vias_options_str  += '<option value="KM 7, Alto Chingo S/ Nº Control Norte">KM 7, Alto Chingo S/ Nº Control Norte</option>';
+            Vias_options_str  += '<option value="Km 14 Estrada de Cacuaco">Km 14 Estrada de Cacuaco</option>';
+            Vias_options_str  += '<option value="Km 14-B Rua 11 de Novembro casa nº 409">Km 14-B Rua 11 de Novembro casa nº 409</option>';
+            Vias_options_str  += '<option value="Km 24/5 Casa S/ nº">Km 24/5 Casa S/ nº</option>';
+            Vias_options_str  += '<option value="LUANDA">LUANDA</option>';
+            Vias_options_str  += '<option value="Largo 17 de Setembro n.º 7">Largo 17 de Setembro n.º 7</option>';
+            Vias_options_str  += '<option value="Largo 17 de Setembro, nº7,4º Andar Sala 454">Largo 17 de Setembro, nº7,4º Andar Sala 454</option>';
+            Vias_options_str  += '<option value="Largo 4 de Fevereiro nº3, 1º andar">Largo 4 de Fevereiro nº3, 1º andar</option>';
+            Vias_options_str  += '<option value="Largo 4 de Fevereiro, 3, 3.º">Largo 4 de Fevereiro, 3, 3.º</option>';
+            Vias_options_str  += '<option value="Largo 4 de Fevereiro, nº 3 - 4º Andar">Largo 4 de Fevereiro, nº 3 - 4º Andar</option>';
+            Vias_options_str  += '<option value="Largo Ingombotas, Nº 9 -2º Andar Esquerdo">Largo Ingombotas, Nº 9 -2º Andar Esquerdo</option>';
+            Vias_options_str  += '<option value="Largo Irene Nº07">Largo Irene Nº07</option>';
+            Vias_options_str  += '<option value="Largo da Estação">Largo da Estação</option>';
+            Vias_options_str  += '<option value="Largo do Sweto Nº88">Largo do Sweto Nº88</option>';
+            Vias_options_str  += '<option value="Luanda">Luanda</option>';
+            Vias_options_str  += '<option value="Maianga">Maianga</option>';
+            Vias_options_str  += '<option value="Mbanza Congo">Mbanza Congo</option>';
+            Vias_options_str  += '<option value="Menongue-Cutato KM2">Menongue-Cutato KM2</option>';
+            Vias_options_str  += '<option value="Mercado Municipal do Namibe">Mercado Municipal do Namibe</option>';
+            Vias_options_str  += '<option value="Morro Bento II">Morro Bento II</option>';
+            Vias_options_str  += '<option value="Nova Zona Industrial do Mutundo">Nova Zona Industrial do Mutundo</option>';
+            Vias_options_str  += '<option value="P.I.V.S/N">P.I.V.S/N</option>';
+            Vias_options_str  += '<option value="PA Alvalada">PA Alvalada</option>';
+            Vias_options_str  += '<option value="PA Bairro Popular-Neves Bendinha">PA Bairro Popular-Neves Bendinha</option>';
+            Vias_options_str  += '<option value="PA Oásis - AV. Deolinda Rodriguês">PA Oásis - AV. Deolinda Rodriguês</option>';
+            Vias_options_str  += '<option value="Parque Empresarial de Viana">Parque Empresarial de Viana</option>';
+            Vias_options_str  += '<option value="Parque Industrial Petrote, Bairro da Vidrul">Parque Industrial Petrote, Bairro da Vidrul</option>';
+            Vias_options_str  += '<option value="Parque Industrial Petrotec, Bairro da Vidrul">Parque Industrial Petrotec, Bairro da Vidrul</option>';
+            Vias_options_str  += '<option value="Parque Industrial Petrotec-Bairro Vidrul">Parque Industrial Petrotec-Bairro Vidrul</option>';
+            Vias_options_str  += '<option value="Perímetro do Polo Industrial de Viana">Perímetro do Polo Industrial de Viana</option>';
+            Vias_options_str  += '<option value="Pescaria Oceântico">Pescaria Oceântico</option>';
+            Vias_options_str  += '<option value="Polo Industrial casa s/n ao lado do cemitério">Polo Industrial casa s/n ao lado do cemitério</option>';
+            Vias_options_str  += '<option value="Polo Industrial de Viana">Polo Industrial de Viana</option>';
+            Vias_options_str  += '<option value="Polo Industrial de Viana Km 25  174 B/C">Polo Industrial de Viana Km 25  174 B/C</option>';
+            Vias_options_str  += '<option value="Polo Industrial de Viana, Edifício SLC-Viana">Polo Industrial de Viana, Edifício SLC-Viana</option>';
+            Vias_options_str  += '<option value="Polo Industrial de Viana, Estrada do Zango-Viana">Polo Industrial de Viana, Estrada do Zango-Viana</option>';
+            Vias_options_str  += '<option value="Polo Industrial de Viana, Rua S/N">Polo Industrial de Viana, Rua S/N</option>';
+            Vias_options_str  += '<option value="Polo Industrial de Viana-Estrada do Zango-Viana">Polo Industrial de Viana-Estrada do Zango-Viana</option>';
+            Vias_options_str  += '<option value="Polo de Desenvolvimento Industrial">Polo de Desenvolvimento Industrial</option>';
+            Vias_options_str  += '<option value="Porto - Amboim">Porto - Amboim</option>';
+            Vias_options_str  += '<option value="Posterede Bom Jesus">Posterede Bom Jesus</option>';
+            Vias_options_str  += '<option value="Pólo Industrial de Viana">Pólo Industrial de Viana</option>';
+            Vias_options_str  += '<option value="Rua / do Macau -Bairro da Residência">Rua / do Macau -Bairro da Residência</option>';
+            Vias_options_str  += '<option value="Rua 1 Boavista -Zona 17">Rua 1 Boavista -Zona 17</option>';
+            Vias_options_str  += '<option value="Rua 10 de Dezembro, Baía Farta Próximo ao BPC">Rua 10 de Dezembro, Baía Farta Próximo ao BPC</option>';
+            Vias_options_str  += '<option value="Rua 11 de Novembro, Bairro Okapal">Rua 11 de Novembro, Bairro Okapal</option>';
+            Vias_options_str  += '<option value="Rua 13, Casa nº 91, Zona 3-Benfica">Rua 13, Casa nº 91, Zona 3-Benfica</option>';
+            Vias_options_str  += '<option value="Rua 1º Congresso MPLA, nº 19 11A Apt-C">Rua 1º Congresso MPLA, nº 19 11A Apt-C</option>';
+            Vias_options_str  += '<option value="Rua 2 IL AO Largo do Ambiente  S/Nº">Rua 2 IL AO Largo do Ambiente  S/Nº</option>';
+            Vias_options_str  += '<option value="Rua 2, Casa nº 198 o Lar do Patriota">Rua 2, Casa nº 198 o Lar do Patriota</option>';
+            Vias_options_str  += '<option value="Rua 20, Casa n.º 198 - Lar do Patriota">Rua 20, Casa n.º 198 - Lar do Patriota</option>';
+            Vias_options_str  += '<option value="Rua 21 de Janeiro">Rua 21 de Janeiro</option>';
+            Vias_options_str  += '<option value="Rua 44, Bairro Benfica">Rua 44, Bairro Benfica</option>';
+            Vias_options_str  += '<option value="Rua 5º Avenida">Rua 5º Avenida</option>';
+            Vias_options_str  += '<option value="Rua 6 Nº22 B">Rua 6 Nº22 B</option>';
+            Vias_options_str  += '<option value="Rua 6-1L, Casa s/nº">Rua 6-1L, Casa s/nº</option>';
+            Vias_options_str  += '<option value="Rua A, n.º 64, Bairro Vila do Estoril, Golfo II">Rua A, n.º 64, Bairro Vila do Estoril, Golfo II</option>';
+            Vias_options_str  += '<option value="Rua AV. 4 de Fevereiro nº 13 RC">Rua AV. 4 de Fevereiro nº 13 RC</option>';
+            Vias_options_str  += '<option value="Rua Adjacente ao Kero, Casa s/ nº">Rua Adjacente ao Kero, Casa s/ nº</option>';
+            Vias_options_str  += '<option value="Rua Albano Machado n.º 9 A">Rua Albano Machado n.º 9 A</option>';
+            Vias_options_str  += '<option value="Rua Alfredo Trony, Nº26 - 1º andar">Rua Alfredo Trony, Nº26 - 1º andar</option>';
+            Vias_options_str  += '<option value="Rua Anibal de Melo, Condomínio Bengo.">Rua Anibal de Melo, Condomínio Bengo.</option>';
+            Vias_options_str  += '<option value="Rua António Bruto N.º 35/37">Rua António Bruto N.º 35/37</option>';
+            Vias_options_str  += '<option value="Rua António Lencastre n.º1">Rua António Lencastre n.º1</option>';
+            Vias_options_str  += '<option value="Rua António Pinto, Prédio n.º 9.7º andar C">Rua António Pinto, Prédio n.º 9.7º andar C</option>';
+            Vias_options_str  += '<option value="Rua Armindo de Andrade Nº 40-42">Rua Armindo de Andrade Nº 40-42</option>';
+            Vias_options_str  += '<option value="Rua Arsénio Pompílio Pompeo de Carpo">Rua Arsénio Pompílio Pompeo de Carpo</option>';
+            Vias_options_str  += '<option value="Rua Arsénio Pompílio Pompeu do Carpo, 38A,">Rua Arsénio Pompílio Pompeu do Carpo, 38A,</option>';
+            Vias_options_str  += '<option value="Rua Arsénio Ponpilio Pompeu do carpo, 38A">Rua Arsénio Ponpilio Pompeu do carpo, 38A</option>';
+            Vias_options_str  += '<option value="Rua Augusto Mendes Correia N.º 26 Alvalade">Rua Augusto Mendes Correia N.º 26 Alvalade</option>';
+            Vias_options_str  += '<option value="Rua Belmiro de Monte">Rua Belmiro de Monte</option>';
+            Vias_options_str  += '<option value="Rua Cesário Verde N.ºS 23-25">Rua Cesário Verde N.ºS 23-25</option>';
+            Vias_options_str  += '<option value="Rua Cirilo da Conceição e Silva, N.º23/2 Apartamen">Rua Cirilo da Conceição e Silva, N.º23/2 Apartamen</option>';
+            Vias_options_str  += '<option value="Rua Cmdt Gika, n.º 187, 2.ºandar, Zona 5, Alvalade">Rua Cmdt Gika, n.º 187, 2.ºandar, Zona 5, Alvalade</option>';
+            Vias_options_str  += '<option value="Rua Comandante Cow-boy Zona 6-Lubango">Rua Comandante Cow-boy Zona 6-Lubango</option>';
+            Vias_options_str  += '<option value="Rua Comandante Gika 261/D-B Sala 01">Rua Comandante Gika 261/D-B Sala 01</option>';
+            Vias_options_str  += '<option value="Rua Comandante Gika, Nº03/4">Rua Comandante Gika, Nº03/4</option>';
+            Vias_options_str  += '<option value="Rua Comandante Jack Nº 132">Rua Comandante Jack Nº 132</option>';
+            Vias_options_str  += '<option value="Rua Comandante Kassanje, Cubal">Rua Comandante Kassanje, Cubal</option>';
+            Vias_options_str  += '<option value="Rua Comandante Kassanje, nº s/nº">Rua Comandante Kassanje, nº s/nº</option>';
+            Vias_options_str  += '<option value="Rua Comandante Kwenha">Rua Comandante Kwenha</option>';
+            Vias_options_str  += '<option value="Rua Conego Manuel das Neves nº403 R/C">Rua Conego Manuel das Neves nº403 R/C</option>';
+            Vias_options_str  += '<option value="Rua Conselheiro Aires de Ornelas">Rua Conselheiro Aires de Ornelas</option>';
+            Vias_options_str  += '<option value="Rua Craveiro Lopes Nº A51">Rua Craveiro Lopes Nº A51</option>';
+            Vias_options_str  += '<option value="Rua Deolinda Rodrigues">Rua Deolinda Rodrigues</option>';
+            Vias_options_str  += '<option value="Rua Deolinda Rodrigues Lote A6-Edificio Fermat">Rua Deolinda Rodrigues Lote A6-Edificio Fermat</option>';
+            Vias_options_str  += '<option value="Rua Direita de Cacuaco">Rua Direita de Cacuaco</option>';
+            Vias_options_str  += '<option value="Rua Direita de Cacuaco Bairro Petrangol">Rua Direita de Cacuaco Bairro Petrangol</option>';
+            Vias_options_str  += '<option value="Rua Direita de Cacuaco, Bairro Boa Esperança">Rua Direita de Cacuaco, Bairro Boa Esperança</option>';
+            Vias_options_str  += '<option value="Rua Direita de Cacuaco, Casa s/n,">Rua Direita de Cacuaco, Casa s/n,</option>';
+            Vias_options_str  += '<option value="Rua Direita do Benfica, KM 32">Rua Direita do Benfica, KM 32</option>';
+            Vias_options_str  += '<option value="Rua Direita do Calemba 2 Bairro Jacinto Tchipa S/N">Rua Direita do Calemba 2 Bairro Jacinto Tchipa S/N</option>';
+            Vias_options_str  += '<option value="Rua Direita do Patriota, Bairro Benfica">Rua Direita do Patriota, Bairro Benfica</option>';
+            Vias_options_str  += '<option value="Rua Dom Moisés Alves de Pinho-Bairro Palanca">Rua Dom Moisés Alves de Pinho-Bairro Palanca</option>';
+            Vias_options_str  += '<option value="Rua Domingos do O n.º5-7">Rua Domingos do O n.º5-7</option>';
+            Vias_options_str  += '<option value="Rua Dona Antónia Saldanha n.º 113 R/C">Rua Dona Antónia Saldanha n.º 113 R/C</option>';
+            Vias_options_str  += '<option value="Rua Dr António José de Almeida n.º 95">Rua Dr António José de Almeida n.º 95</option>';
+            Vias_options_str  += '<option value="Rua Dr. Agostinho Neto  S/N">Rua Dr. Agostinho Neto  S/N</option>';
+            Vias_options_str  += '<option value="Rua Dr. Americo Boa Vida, Nº 118">Rua Dr. Americo Boa Vida, Nº 118</option>';
+            Vias_options_str  += '<option value="Rua Dr. António A. Neto N.º 35">Rua Dr. António A. Neto N.º 35</option>';
+            Vias_options_str  += '<option value="Rua Dr. Egas Moniz, n.º SA">Rua Dr. Egas Moniz, n.º SA</option>';
+            Vias_options_str  += '<option value="Rua Dr. José Pereira do Nascimento, n.º 51">Rua Dr. José Pereira do Nascimento, n.º 51</option>';
+            Vias_options_str  += '<option value="Rua Dr.º António Agostinho Neto, Zona B">Rua Dr.º António Agostinho Neto, Zona B</option>';
+            Vias_options_str  += '<option value="Rua Eduardo Mondlande Casa Nº 138 A, Sala A">Rua Eduardo Mondlande Casa Nº 138 A, Sala A</option>';
+            Vias_options_str  += '<option value="Rua Eduardo Mondlande N.º143-A">Rua Eduardo Mondlande N.º143-A</option>';
+            Vias_options_str  += '<option value="Rua Eduardo Mondlane nº 143">Rua Eduardo Mondlane nº 143</option>';
+            Vias_options_str  += '<option value="Rua Engrácia Fragoso, Prédio 22, nº 10">Rua Engrácia Fragoso, Prédio 22, nº 10</option>';
+            Vias_options_str  += '<option value="Rua Estrada da Tuandavala- Urbaniz. Colina do Sol">Rua Estrada da Tuandavala- Urbaniz. Colina do Sol</option>';
+            Vias_options_str  += '<option value="Rua Estrada das Britadeiras-Mulenvos, N. S/N">Rua Estrada das Britadeiras-Mulenvos, N. S/N</option>';
+            Vias_options_str  += '<option value="Rua Feliciano Castilho nº 214">Rua Feliciano Castilho nº 214</option>';
+            Vias_options_str  += '<option value="Rua Fernão Mendes Pinto Bairro Alvalade n.º 55/57">Rua Fernão Mendes Pinto Bairro Alvalade n.º 55/57</option>';
+            Vias_options_str  += '<option value="Rua Fernão de Sousa Nº 3 RC">Rua Fernão de Sousa Nº 3 RC</option>';
+            Vias_options_str  += '<option value="Rua Ferreira do Amaral n.º63">Rua Ferreira do Amaral n.º63</option>';
+            Vias_options_str  += '<option value="Rua Francisco Perreira Africano nº 75, Zona 15">Rua Francisco Perreira Africano nº 75, Zona 15</option>';
+            Vias_options_str  += '<option value="Rua Francisco de Távora, Nº 8">Rua Francisco de Távora, Nº 8</option>';
+            Vias_options_str  += '<option value="Rua Frederic Engeles Nº 61">Rua Frederic Engeles Nº 61</option>';
+            Vias_options_str  += '<option value="Rua Garcia Neto, 67 Bairro São Paulo">Rua Garcia Neto, 67 Bairro São Paulo</option>';
+            Vias_options_str  += '<option value="Rua Guilherme Pereira Inglês, nº 2A">Rua Guilherme Pereira Inglês, nº 2A</option>';
+            Vias_options_str  += '<option value="Rua Guiné nº 5">Rua Guiné nº 5</option>';
+            Vias_options_str  += '<option value="Rua Ho Chi Min Bairro Militar Numero 36">Rua Ho Chi Min Bairro Militar Numero 36</option>';
+            Vias_options_str  += '<option value="Rua Ho-Chin.Min Casa n.º90A-Martires de Kifangondo">Rua Ho-Chin.Min Casa n.º90A-Martires de Kifangondo</option>';
+            Vias_options_str  += '<option value="Rua Hoji Ya Henda Bº Nelito Soares">Rua Hoji Ya Henda Bº Nelito Soares</option>';
+            Vias_options_str  += '<option value="Rua Hoji Ya Henda Casa nº 52. Bairro Vila de Viana">Rua Hoji Ya Henda Casa nº 52. Bairro Vila de Viana</option>';
+            Vias_options_str  += '<option value="Rua Hoji Ya henda , nº 43">Rua Hoji Ya henda , nº 43</option>';
+            Vias_options_str  += '<option value="Rua Industrial de Viana S/N Viana 2">Rua Industrial de Viana S/N Viana 2</option>';
+            Vias_options_str  += '<option value="Rua Infante Dom Henrique">Rua Infante Dom Henrique</option>';
+            Vias_options_str  += '<option value="Rua Infante Dom Henrique nº 2">Rua Infante Dom Henrique nº 2</option>';
+            Vias_options_str  += '<option value="Rua Joaquim Figueiredo, 12 R/C">Rua Joaquim Figueiredo, 12 R/C</option>';
+            Vias_options_str  += '<option value="Rua José Estevão nº 82- Benguela">Rua José Estevão nº 82- Benguela</option>';
+            Vias_options_str  += '<option value="Rua José da Silva Lameira, ED EKUMBI, 8.º Andar">Rua José da Silva Lameira, ED EKUMBI, 8.º Andar</option>';
+            Vias_options_str  += '<option value="Rua Kami-Bairro Maculusso, n.º 4 M">Rua Kami-Bairro Maculusso, n.º 4 M</option>';
+            Vias_options_str  += '<option value="Rua Kwamme N&apos;Krumah nº10, Edf KN 10 Piso 7,">Rua Kwamme N&apos;Krumah nº10, Edf KN 10 Piso 7,</option>';
+            Vias_options_str  += '<option value="Rua Lar do Patriota">Rua Lar do Patriota</option>';
+            Vias_options_str  += '<option value="Rua Luis Pasteur, s/nº Bairro Marçal-Rangel">Rua Luis Pasteur, s/nº Bairro Marçal-Rangel</option>';
+            Vias_options_str  += '<option value="Rua Luther King, Bairro Maculusso">Rua Luther King, Bairro Maculusso</option>';
+            Vias_options_str  += '<option value="Rua Machado de Castro">Rua Machado de Castro</option>';
+            Vias_options_str  += '<option value="Rua Major Kanhangulo">Rua Major Kanhangulo</option>';
+            Vias_options_str  += '<option value="Rua Manuel Almeida Vasconcelo 48/50">Rua Manuel Almeida Vasconcelo 48/50</option>';
+            Vias_options_str  += '<option value="Rua Manuel Almeida e vasconcelos , 60">Rua Manuel Almeida e vasconcelos , 60</option>';
+            Vias_options_str  += '<option value="Rua Manuel Fernandez Caldeira, nº 5">Rua Manuel Fernandez Caldeira, nº 5</option>';
+            Vias_options_str  += '<option value="Rua Manuel de Almeida Vasconselos n.º 104/106">Rua Manuel de Almeida Vasconselos n.º 104/106</option>';
+            Vias_options_str  += '<option value="Rua Marian Ngouabi n.º 28, Zona 5">Rua Marian Ngouabi n.º 28, Zona 5</option>';
+            Vias_options_str  += '<option value="Rua Marian Nguabi, N.º 28, Zona 5">Rua Marian Nguabi, N.º 28, Zona 5</option>';
+            Vias_options_str  += '<option value="Rua Marien Ngouabi N.º 28 A Zona 5">Rua Marien Ngouabi N.º 28 A Zona 5</option>';
+            Vias_options_str  += '<option value="Rua Marien Ngouabi nº 28 A Zona 5">Rua Marien Ngouabi nº 28 A Zona 5</option>';
+            Vias_options_str  += '<option value="Rua Marien Ngouabi, n.º 18.º Esq">Rua Marien Ngouabi, n.º 18.º Esq</option>';
+            Vias_options_str  += '<option value="Rua Massano de Amorim, casa nº 310-A">Rua Massano de Amorim, casa nº 310-A</option>';
+            Vias_options_str  += '<option value="Rua Mon Senhor Mendes das Neves">Rua Mon Senhor Mendes das Neves</option>';
+            Vias_options_str  += '<option value="Rua Monsenhor Kelling n.º 241 Minhota">Rua Monsenhor Kelling n.º 241 Minhota</option>';
+            Vias_options_str  += '<option value="Rua Monsenhor Kelling nº 241 Minhota">Rua Monsenhor Kelling nº 241 Minhota</option>';
+            Vias_options_str  += '<option value="Rua Morro Bento - Sector D Nº 79">Rua Morro Bento - Sector D Nº 79</option>';
+            Vias_options_str  += '<option value="Rua Mortala Mohamed n.º32 Cape Island">Rua Mortala Mohamed n.º32 Cape Island</option>';
+            Vias_options_str  += '<option value="Rua Mortala Mohamed, Sector Salga">Rua Mortala Mohamed, Sector Salga</option>';
+            Vias_options_str  += '<option value="Rua Mortala Mohamed, n.º 1111 - Chicala 2">Rua Mortala Mohamed, n.º 1111 - Chicala 2</option>';
+            Vias_options_str  += '<option value="Rua Moçambique13, Predio nº10 Ap C, 2º Andar">Rua Moçambique13, Predio nº10 Ap C, 2º Andar</option>';
+            Vias_options_str  += '<option value="Rua N Casa s/n Bairro Comercial">Rua N Casa s/n Bairro Comercial</option>';
+            Vias_options_str  += '<option value="Rua N&apos;gola Kiluange, Bairro Hoji-ya-Henda, N.º SP">Rua N&apos;gola Kiluange, Bairro Hoji-ya-Henda, N.º SP</option>';
+            Vias_options_str  += '<option value="Rua Nacional, Bairro Km">Rua Nacional, Bairro Km</option>';
+            Vias_options_str  += '<option value="Rua Ngola Kiluange s/n">Rua Ngola Kiluange s/n</option>';
+            Vias_options_str  += '<option value="Rua N´Gola Kiluange 370">Rua N´Gola Kiluange 370</option>';
+            Vias_options_str  += '<option value="Rua Oliveira Cardonega, Prédio n.º13">Rua Oliveira Cardonega, Prédio n.º13</option>';
+            Vias_options_str  += '<option value="Rua Osvaldo Serra Van Dunem Casa N.º5">Rua Osvaldo Serra Van Dunem Casa N.º5</option>';
+            Vias_options_str  += '<option value="Rua Patrício Lumumba-Bairro Malueka, n.º 12">Rua Patrício Lumumba-Bairro Malueka, n.º 12</option>';
+            Vias_options_str  += '<option value="Rua Perimetro de Irregação Bairro Porto Kipi">Rua Perimetro de Irregação Bairro Porto Kipi</option>';
+            Vias_options_str  += '<option value="Rua Porto Santos s/n">Rua Porto Santos s/n</option>';
+            Vias_options_str  += '<option value="Rua Principal do Dande-Musseque Cabela">Rua Principal do Dande-Musseque Cabela</option>';
+            Vias_options_str  += '<option value="Rua Principal n.º S/N">Rua Principal n.º S/N</option>';
+            Vias_options_str  += '<option value="Rua Rainha Ginga nº 177 -piso 5º">Rua Rainha Ginga nº 177 -piso 5º</option>';
+            Vias_options_str  += '<option value="Rua Rainha Ginga, CASA Nº 21">Rua Rainha Ginga, CASA Nº 21</option>';
+            Vias_options_str  += '<option value="Rua Rainha Ginga, Casa nº 21">Rua Rainha Ginga, Casa nº 21</option>';
+            Vias_options_str  += '<option value="Rua Rainha N Jinga">Rua Rainha N Jinga</option>';
+            Vias_options_str  += '<option value="Rua Rainha N Jinga 2012 R/C">Rua Rainha N Jinga 2012 R/C</option>';
+            Vias_options_str  += '<option value="Rua Rainha N Jinga Nº 212 R/C">Rua Rainha N Jinga Nº 212 R/C</option>';
+            Vias_options_str  += '<option value="Rua Rainha N Jinga n.º 212 R/C-Luanda">Rua Rainha N Jinga n.º 212 R/C-Luanda</option>';
+            Vias_options_str  += '<option value="Rua Recolix nº 15 -Mulenvos de Cima">Rua Recolix nº 15 -Mulenvos de Cima</option>';
+            Vias_options_str  += '<option value="Rua Rei Katyavala N.º 43-45, 7.º Andar">Rua Rei Katyavala N.º 43-45, 7.º Andar</option>';
+            Vias_options_str  += '<option value="Rua Revd. Agostinho Pedro Neto, n.º 47-10">Rua Revd. Agostinho Pedro Neto, n.º 47-10</option>';
+            Vias_options_str  += '<option value="Rua Revolução de Outubro, Complexo da Samba">Rua Revolução de Outubro, Complexo da Samba</option>';
+            Vias_options_str  += '<option value="Rua Revolução de Outubro, Complexo da Samba 50 A">Rua Revolução de Outubro, Complexo da Samba 50 A</option>';
+            Vias_options_str  += '<option value="Rua Revolução de Outubro, Complexo da Samba 50A">Rua Revolução de Outubro, Complexo da Samba 50A</option>';
+            Vias_options_str  += '<option value="Rua S/ Nº Bairro Boa Esperança">Rua S/ Nº Bairro Boa Esperança</option>';
+            Vias_options_str  += '<option value="Rua S/Estrada de Catete, KM 38">Rua S/Estrada de Catete, KM 38</option>';
+            Vias_options_str  += '<option value="Rua S/N (Em frente a Paviterra)">Rua S/N (Em frente a Paviterra)</option>';
+            Vias_options_str  += '<option value="Rua S/N Bairro Calemba">Rua S/N Bairro Calemba</option>';
+            Vias_options_str  += '<option value="Rua S/N Bairro da Pecuária, s/nº">Rua S/N Bairro da Pecuária, s/nº</option>';
+            Vias_options_str  += '<option value="Rua S/N Bairro de Viana">Rua S/N Bairro de Viana</option>';
+            Vias_options_str  += '<option value="Rua S/N, Lubango">Rua S/N, Lubango</option>';
+            Vias_options_str  += '<option value="Rua S/N- Centro Logístico de Talatona, Gleba Guo3">Rua S/N- Centro Logístico de Talatona, Gleba Guo3</option>';
+            Vias_options_str  += '<option value="Rua S/Nº Bairro 10 de Dezembro">Rua S/Nº Bairro 10 de Dezembro</option>';
+            Vias_options_str  += '<option value="Rua S/Nº Bairro Poló INdustrial de Viana NºS/N">Rua S/Nº Bairro Poló INdustrial de Viana NºS/N</option>';
+            Vias_options_str  += '<option value="Rua S/Nº Bairro da Nossa Srª do Monte">Rua S/Nº Bairro da Nossa Srª do Monte</option>';
+            Vias_options_str  += '<option value="Rua S/Nº Catete KM25">Rua S/Nº Catete KM25</option>';
+            Vias_options_str  += '<option value="Rua S/Nº Zona Industrial da II-A TC 2 UCHE">Rua S/Nº Zona Industrial da II-A TC 2 UCHE</option>';
+            Vias_options_str  += '<option value="Rua S/Nº, Bairro de Úlua, Nº S/N">Rua S/Nº, Bairro de Úlua, Nº S/N</option>';
+            Vias_options_str  += '<option value="Rua S/nº Bairro Vila de Viana">Rua S/nº Bairro Vila de Viana</option>';
+            Vias_options_str  += '<option value="Rua Samora Machel Via R8">Rua Samora Machel Via R8</option>';
+            Vias_options_str  += '<option value="Rua Samuel Bernado, prédio nº 18, 3º andar">Rua Samuel Bernado, prédio nº 18, 3º andar</option>';
+            Vias_options_str  += '<option value="Rua Sanzala Cabinda_Junto ao Quartel dos Bombeiros">Rua Sanzala Cabinda_Junto ao Quartel dos Bombeiros</option>';
+            Vias_options_str  += '<option value="Rua Sebastião desta Vez.Bairro Operário nº 72">Rua Sebastião desta Vez.Bairro Operário nº 72</option>';
+            Vias_options_str  += '<option value="Rua Silva Porto Nº137">Rua Silva Porto Nº137</option>';
+            Vias_options_str  += '<option value="Rua Unidade Industrial Kikuxi S/N">Rua Unidade Industrial Kikuxi S/N</option>';
+            Vias_options_str  += '<option value="Rua Unidade e Luta casa n.º 4">Rua Unidade e Luta casa n.º 4</option>';
+            Vias_options_str  += '<option value="Rua Vasco da Gama, Nº 7">Rua Vasco da Gama, Nº 7</option>';
+            Vias_options_str  += '<option value="Rua da Ameixa, Nº CD 321-323-Bº Sapú II">Rua da Ameixa, Nº CD 321-323-Bº Sapú II</option>';
+            Vias_options_str  += '<option value="Rua da Fesa S/N - Frente Vila do Gamek">Rua da Fesa S/N - Frente Vila do Gamek</option>';
+            Vias_options_str  += '<option value="Rua da Gabela, Bairro Neves Bendinha">Rua da Gabela, Bairro Neves Bendinha</option>';
+            Vias_options_str  += '<option value="Rua da Moagem Complexo Interpark, Est catete KM12">Rua da Moagem Complexo Interpark, Est catete KM12</option>';
+            Vias_options_str  += '<option value="Rua da Moagem do Kikolo, Casa s/nº">Rua da Moagem do Kikolo, Casa s/nº</option>';
+            Vias_options_str  += '<option value="Rua da Ngola, Mapunda, Casa S/N">Rua da Ngola, Mapunda, Casa S/N</option>';
+            Vias_options_str  += '<option value="Rua da Padaria n.º 606-D Bairro Kikolo">Rua da Padaria n.º 606-D Bairro Kikolo</option>';
+            Vias_options_str  += '<option value="Rua da Ponde de Partida, casa s nº">Rua da Ponde de Partida, casa s nº</option>';
+            Vias_options_str  += '<option value="Rua da SONEF - Bairro KM 25, Nº S/N">Rua da SONEF - Bairro KM 25, Nº S/N</option>';
+            Vias_options_str  += '<option value="Rua da Salga, Bairro dos Pescadores, nº 52">Rua da Salga, Bairro dos Pescadores, nº 52</option>';
+            Vias_options_str  += '<option value="Rua da Sonef, Porto Seco">Rua da Sonef, Porto Seco</option>';
+            Vias_options_str  += '<option value="Rua da Vaidade Casa s/nº Bº Km 12">Rua da Vaidade Casa s/nº Bº Km 12</option>';
+            Vias_options_str  += '<option value="Rua da Velha Açucareira">Rua da Velha Açucareira</option>';
+            Vias_options_str  += '<option value="Rua da terra vermelha, casa nº 494">Rua da terra vermelha, casa nº 494</option>';
+            Vias_options_str  += '<option value="Rua das Antenas. Bº Hoyi Ya Henda nº 339">Rua das Antenas. Bº Hoyi Ya Henda nº 339</option>';
+            Vias_options_str  += '<option value="Rua das Flores nº58">Rua das Flores nº58</option>';
+            Vias_options_str  += '<option value="Rua das Kipacas n.º5">Rua das Kipacas n.º5</option>';
+            Vias_options_str  += '<option value="Rua das kipakas 5º">Rua das kipakas 5º</option>';
+            Vias_options_str  += '<option value="Rua de Caixa Baixa, Casa n.º 495">Rua de Caixa Baixa, Casa n.º 495</option>';
+            Vias_options_str  += '<option value="Rua de Caixa Baixa, Casa nº 495, Bº Cmte Dangereux">Rua de Caixa Baixa, Casa nº 495, Bº Cmte Dangereux</option>';
+            Vias_options_str  += '<option value="Rua de Mavinga, Casa nº 96">Rua de Mavinga, Casa nº 96</option>';
+            Vias_options_str  += '<option value="Rua de Moçambique 13, Prédio nº10, Ap C">Rua de Moçambique 13, Prédio nº10, Ap C</option>';
+            Vias_options_str  += '<option value="Rua de Oliveira Massango Casa S/N">Rua de Oliveira Massango Casa S/N</option>';
+            Vias_options_str  += '<option value="Rua de Sagres-Zona Comercial nº- A">Rua de Sagres-Zona Comercial nº- A</option>';
+            Vias_options_str  += '<option value="Rua direita da funda, Bairro Kifangondo">Rua direita da funda, Bairro Kifangondo</option>';
+            Vias_options_str  += '<option value="Rua direita de Cacuaco, Prédio da INCAFÉ 1.º ANDAR">Rua direita de Cacuaco, Prédio da INCAFÉ 1.º ANDAR</option>';
+            Vias_options_str  += '<option value="Rua direita de Calumbo, Zango IV, nº 20">Rua direita de Calumbo, Zango IV, nº 20</option>';
+            Vias_options_str  += '<option value="Rua do 1.º Congresso do MPLA">Rua do 1.º Congresso do MPLA</option>';
+            Vias_options_str  += '<option value="Rua do Camama, Condomínio das Acácias, casa D9">Rua do Camama, Condomínio das Acácias, casa D9</option>';
+            Vias_options_str  += '<option value="Rua do Canal de Água-Bairro do Kikuxi nº 480">Rua do Canal de Água-Bairro do Kikuxi nº 480</option>';
+            Vias_options_str  += '<option value="Rua do Canal do Kikuxi S/N">Rua do Canal do Kikuxi S/N</option>';
+            Vias_options_str  += '<option value="Rua do Dream Space- Zona Industrial do Kikuxi,s/nº">Rua do Dream Space- Zona Industrial do Kikuxi,s/nº</option>';
+            Vias_options_str  += '<option value="Rua do Futungo de Belas s/nº">Rua do Futungo de Belas s/nº</option>';
+            Vias_options_str  += '<option value="Rua do Kikuxi, s/ nº">Rua do Kikuxi, s/ nº</option>';
+            Vias_options_str  += '<option value="Rua do Lobito casa nº 63">Rua do Lobito casa nº 63</option>';
+            Vias_options_str  += '<option value="Rua do MAT">Rua do MAT</option>';
+            Vias_options_str  += '<option value="Rua do Matadouro Songo-Bairro KM 30, S/Nº">Rua do Matadouro Songo-Bairro KM 30, S/Nº</option>';
+            Vias_options_str  += '<option value="Rua do Mercado autódromo-Praça nova">Rua do Mercado autódromo-Praça nova</option>';
+            Vias_options_str  += '<option value="Rua do Mussulo -Bairro Ramiro">Rua do Mussulo -Bairro Ramiro</option>';
+            Vias_options_str  += '<option value="Rua do Progresso, Casa n.º 32">Rua do Progresso, Casa n.º 32</option>';
+            Vias_options_str  += '<option value="Rua do aterro sanitário dos mulenvos S/N">Rua do aterro sanitário dos mulenvos S/N</option>';
+            Vias_options_str  += '<option value="Rua dos Antigos Combatentes">Rua dos Antigos Combatentes</option>';
+            Vias_options_str  += '<option value="Rua dos Bombeiros, Sumbe k.Sul">Rua dos Bombeiros, Sumbe k.Sul</option>';
+            Vias_options_str  += '<option value="Rua dos Coqueiros n.º 3 3.º Andar">Rua dos Coqueiros n.º 3 3.º Andar</option>';
+            Vias_options_str  += '<option value="Rua dos Enganos  Nº1">Rua dos Enganos  Nº1</option>';
+            Vias_options_str  += '<option value="Rua dos Enganos n.º 1. 8.º Andar-Kikuxi">Rua dos Enganos n.º 1. 8.º Andar-Kikuxi</option>';
+            Vias_options_str  += '<option value="Rua dos Enganos nº 1 7º Andar">Rua dos Enganos nº 1 7º Andar</option>';
+            Vias_options_str  += '<option value="Rua dos Enganos-Bairro Maculusso, Lda">Rua dos Enganos-Bairro Maculusso, Lda</option>';
+            Vias_options_str  += '<option value="Rua dos Jotabas- Residencial Ginga Isabel n.º6">Rua dos Jotabas- Residencial Ginga Isabel n.º6</option>';
+            Vias_options_str  += '<option value="Rua fernando Mendes Pinto">Rua fernando Mendes Pinto</option>';
+            Vias_options_str  += '<option value="Rua major Kanhangulo predio 131 1ºandar">Rua major Kanhangulo predio 131 1ºandar</option>';
+            Vias_options_str  += '<option value="Rua n.º Casa S/N Bairro Comercial">Rua n.º Casa S/N Bairro Comercial</option>';
+            Vias_options_str  += '<option value="Rua n.º Casa s/n-Bairro Comercial">Rua n.º Casa s/n-Bairro Comercial</option>';
+            Vias_options_str  += '<option value="Rua n.º Casa s/n.º Bairro Comercial">Rua n.º Casa s/n.º Bairro Comercial</option>';
+            Vias_options_str  += '<option value="Rua n.º casa s/n.º Bairro Comercial">Rua n.º casa s/n.º Bairro Comercial</option>';
+            Vias_options_str  += '<option value="Rua nº 137, Lote 161, Talatona -Belas">Rua nº 137, Lote 161, Talatona -Belas</option>';
+            Vias_options_str  += '<option value="Rua nº 62, Casa nº 599, Patriota">Rua nº 62, Casa nº 599, Patriota</option>';
+            Vias_options_str  += '<option value="Rua olha só, casa s/n">Rua olha só, casa s/n</option>';
+            Vias_options_str  += '<option value="Rua s/n Bairro Ximuto-desvio da Barra do Dande">Rua s/n Bairro Ximuto-desvio da Barra do Dande</option>';
+            Vias_options_str  += '<option value="Rua s/n casa s/n Bairro das Mabubas">Rua s/n casa s/n Bairro das Mabubas</option>';
+            Vias_options_str  += '<option value="Rusa S/N Zona Industrial, S/Nº">Rusa S/N Zona Industrial, S/Nº</option>';
+            Vias_options_str  += '<option value="S.I.C.E.LDA, estrada de viana, km 14 sector 4">S.I.C.E.LDA, estrada de viana, km 14 sector 4</option>';
+            Vias_options_str  += '<option value="S/N Bairro da Massangarala">S/N Bairro da Massangarala</option>';
+            Vias_options_str  += '<option value="Sector de Talatona Zona Residencial">Sector de Talatona Zona Residencial</option>';
+            Vias_options_str  += '<option value="Sede Rua S/N ( Comuna do Chamume), S/Nº">Sede Rua S/N ( Comuna do Chamume), S/Nº</option>';
+            Vias_options_str  += '<option value="Sede Social Comuna do Cunje">Sede Social Comuna do Cunje</option>';
+            Vias_options_str  += '<option value="Sede rua Major Kanhangulo-Edifício da Agrisul">Sede rua Major Kanhangulo-Edifício da Agrisul</option>';
+            Vias_options_str  += '<option value="Talatona Belas Shopping">Talatona Belas Shopping</option>';
+            Vias_options_str  += '<option value="Travessa Gama Abdel Nasser">Travessa Gama Abdel Nasser</option>';
+            Vias_options_str  += '<option value="Travessa da Boa Vista n.º 15/17">Travessa da Boa Vista n.º 15/17</option>';
+            Vias_options_str  += '<option value="Travessa da Boavista 15-17, DU das Ingombotas">Travessa da Boavista 15-17, DU das Ingombotas</option>';
+            Vias_options_str  += '<option value="Travessa da Max Park Morro Bento">Travessa da Max Park Morro Bento</option>';
+            Vias_options_str  += '<option value="Urbanização Nova Vida Rua 8 casa 533">Urbanização Nova Vida Rua 8 casa 533</option>';
+            Vias_options_str  += '<option value="Via AL 11 - Talatona, Edifício Transbras Office">Via AL 11 - Talatona, Edifício Transbras Office</option>';
+            Vias_options_str  += '<option value="Via AL 16, Condomínio Zenith Angola">Via AL 16, Condomínio Zenith Angola</option>';
+            Vias_options_str  += '<option value="Via AL 16- Talatona">Via AL 16- Talatona</option>';
+            Vias_options_str  += '<option value="Via Al 16 Talatona">Via Al 16 Talatona</option>';
+            Vias_options_str  += '<option value="Via C3 Talatona">Via C3 Talatona</option>';
+            Vias_options_str  += '<option value="Via C3 ZR3B, Lotegu24 Condomínio Alfa Casa nº2">Via C3 ZR3B, Lotegu24 Condomínio Alfa Casa nº2</option>';
+            Vias_options_str  += '<option value="Via Expresso- Bairro Kikuxi, s/ n">Via Expresso- Bairro Kikuxi, s/ n</option>';
+            Vias_options_str  += '<option value="Via S 8, Condomínio Dolce Vita, Ed. 1B,7º Andar">Via S 8, Condomínio Dolce Vita, Ed. 1B,7º Andar</option>';
+            Vias_options_str  += '<option value="Via S8, C.C. Brisas de Talatona S/N">Via S8, C.C. Brisas de Talatona S/N</option>';
+            Vias_options_str  += '<option value="Zango 4">Zango 4</option>';
+            Vias_options_str  += '<option value="Zango 4 ( Estrada Zango/ Calungo)">Zango 4 ( Estrada Zango/ Calungo)</option>';
+            Vias_options_str  += '<option value="Zango 4_Quarteirão B Rua Direita do Calumbo">Zango 4_Quarteirão B Rua Direita do Calumbo</option>';
+            Vias_options_str  += '<option value="Zona B-Porto Amboim">Zona B-Porto Amboim</option>';
+            Vias_options_str  += '<option value="Zona Industrial II, Km 12, Arimba">Zona Industrial II, Km 12, Arimba</option>';
+            Vias_options_str  += '<option value="Zona Industrial de Cacuaco">Zona Industrial de Cacuaco</option>';
+            Vias_options_str  += '<option value="Zona Industrial de Viana">Zona Industrial de Viana</option>';
+            Vias_options_str  += '<option value="Zona Industrial de Viana, Rua S/N Bloco B">Zona Industrial de Viana, Rua S/N Bloco B</option>';
+            Vias_options_str  += '<option value="Zona Industrial do Uchi">Zona Industrial do Uchi</option>';
+            Vias_options_str  += '<option value="Zona Indústrial de Viana">Zona Indústrial de Viana</option>';
+            Vias_options_str  += '<option value="Zona Verde 1º Bairro das Tendas">Zona Verde 1º Bairro das Tendas</option>';
+            sel_Vias.innerHTML = Vias_options_str;
+            div_Vias.appendChild(sel_Vias);
+            var lab_Vias = document.createElement('div');
+            lab_Vias.innerHTML = 'Vias';
+            lab_Vias.className = 'filterlabel';
+            div_Vias.appendChild(lab_Vias);
+            var reset_Vias = document.createElement('div');
+            reset_Vias.innerHTML = 'clear filter';
+            reset_Vias.className = 'filterlabel';
+            reset_Vias.onclick = function() {
+                var options = document.getElementById("sel_Vias").options;
+                for (var i=0; i < options.length; i++) {
+                    options[i].selected = false;
+                }
+                filterFunc();
+            };
+            div_Vias.appendChild(reset_Vias);
+        resetLabels([layer_18_PROVNCIAS_0]);
+        map.on("zoomend", function(){
+            resetLabels([layer_18_PROVNCIAS_0]);
+        });
+        map.on("layeradd", function(){
+            resetLabels([layer_18_PROVNCIAS_0]);
+        });
+        map.on("layerremove", function(){
+            resetLabels([layer_18_PROVNCIAS_0]);
+        });
+        </script>
+    </body>
+</html>
